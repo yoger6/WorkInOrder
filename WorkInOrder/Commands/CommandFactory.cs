@@ -1,12 +1,16 @@
-﻿namespace WorkInOrder.Commands
+﻿using WorkInOrder.BusinessLogic;
+
+namespace WorkInOrder.Commands
 {
     public class CommandFactory
     {
         private readonly ITaskStorage _storage;
+        private readonly ITaskBoard _board;
 
-        public CommandFactory(ITaskStorage storage)
+        public CommandFactory(ITaskStorage storage, ITaskBoard board)
         {
             _storage = storage;
+            _board = board;
         }
 
         public ICommand Identify(string input)
@@ -21,7 +25,7 @@
                 case "add":
                     return new AddCommand(_storage, message);
                 case "list":
-                    return new ListCommand(_storage, message);
+                    return new ListCommand(_board, message);
                 case "activate":
                     return new ActivateCommand(_storage, message);
                 case "skip":

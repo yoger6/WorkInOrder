@@ -1,23 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using WorkInOrder.BusinessLogic;
 
 namespace WorkInOrder.Commands
 {
     public class ListCommand : ICommand
     {
-        private readonly ITaskStorage _storage;
+        private readonly ITaskBoard _board;
         private readonly string _parameter;
 
-        public ListCommand(ITaskStorage storage, string parameter)
+        public ListCommand(ITaskBoard board, string parameter)
         {
-            _storage = storage;
+            _board = board;
             _parameter = parameter;
         }
 
         public OutputMessage[] Run()
         {
-            var tasks = _storage.GetAll().OrderBy(x=>x.CreatedOn);
+            var tasks = _board.ListTasks();
 
             if (!tasks.Any())
             {

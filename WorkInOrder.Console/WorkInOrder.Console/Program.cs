@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using WorkInOrder.BusinessLogic;
 using WorkInOrder.Commands;
 
 namespace WorkInOrder.Console
@@ -10,7 +11,8 @@ namespace WorkInOrder.Console
         {
             var userStoragePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "WorkInOrder", "WorkInOrder.sqlite");
             var storage = new TaskStorage($"DataSource={userStoragePath}");
-            var factory = new CommandFactory(storage);
+            var board = new TaskBoard(storage);
+            var factory = new CommandFactory(storage, board);
             while (true)
             {
                 var defaultColor = System.Console.ForegroundColor;

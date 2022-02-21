@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Moq;
+using WorkInOrder.BusinessLogic;
 using WorkInOrder.Commands;
 using Xunit;
 
@@ -11,10 +12,11 @@ namespace WorkInOrder.Tests
 
         private readonly CommandFactory _factory;
         private readonly Mock<ITaskStorage> _storage = new Mock<ITaskStorage>();
+        private readonly Mock<ITaskBoard> _board = new Mock<ITaskBoard>();
 
         public ListCommandTests()
         {
-            _factory = new CommandFactory(_storage.Object);
+            _factory = new CommandFactory(_storage.Object, _board.Object);
         }
 
         [Fact]
@@ -27,12 +29,11 @@ namespace WorkInOrder.Tests
                 new Task(DateTime.Now.AddMinutes(2), "Test", Status.Current),
                 new Task(DateTime.Now.AddMinutes(3), "Deploy", Status.Pending),
             };
-            _storage.Setup(x => x.GetAll()).Returns(
-                tasks);
+            _board.Setup(x => x.ListTasks()).Returns(tasks);
+
             var result = Run();
 
-            _storage.Verify(x => x.GetAll(), Times.Once);
-
+            _board.Verify(x => x.ListTasks(), Times.Once);
             Assert.StartsWith("+ Code", result[0].Content);
             Assert.Equal(Format.Positive, result[0].Format);
             Assert.StartsWith("- Compile", result[1].Content);
@@ -42,23 +43,7 @@ namespace WorkInOrder.Tests
             Assert.StartsWith("? Deploy", result[3].Content);
             Assert.Equal(Format.Neutral, result[3].Format);
         }
-
-        [Fact]
-        public void ListCommand_DisplaysTasksInCorrectOrder()
-        {
-            var tasks = new[]
-            {
-                new Task(DateTime.Now.AddDays(1), "Second", Status.Pending),
-                new Task(DateTime.Now, "First", Status.Pending),
-            };
-            _storage.Setup(x => x.GetAll()).Returns(tasks);
-
-            var result = Run();
-
-            Assert.StartsWith("? First", result[0].Content);
-            Assert.StartsWith("? Second", result[1].Content);
-        }
-
+        
         [Fact]
         public void InformsThereAreNoTasksToDisplay()
         {
@@ -75,7 +60,7 @@ namespace WorkInOrder.Tests
                 new Task(DateTime.Now, "First", Status.Done, DateTime.Now.AddDays(1)),
                 new Task(DateTime.Now.AddDays(1), "Second", Status.Done, DateTime.Now.AddDays(2)),
             };
-            _storage.Setup(x => x.GetAll()).Returns(tasks);
+            _board.Setup(x => x.ListTasks()).Returns(tasks);
 
             var result = Run("d");
 

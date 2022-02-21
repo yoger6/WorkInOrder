@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Moq;
+using WorkInOrder.BusinessLogic;
 using WorkInOrder.Commands;
 using Xunit;
 
@@ -10,10 +11,11 @@ namespace WorkInOrder.Tests
     {
         private readonly CommandFactory _factory;
         private readonly Mock<ITaskStorage> _storage = new Mock<ITaskStorage>();
+        private readonly Mock<ITaskBoard> _board = new Mock<ITaskBoard>();
 
         public AddCommandTests()
         {
-            _factory = new CommandFactory(_storage.Object);
+            _factory = new CommandFactory(_storage.Object, _board.Object);
         }
 
         [Fact]

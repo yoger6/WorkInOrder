@@ -1,4 +1,6 @@
-﻿namespace WorkInOrder.BusinessLogic
+﻿using System.Linq;
+
+namespace WorkInOrder.BusinessLogic
 {
     public class TaskBoard : ITaskBoard
     {
@@ -16,7 +18,9 @@
 
         public Task[] ListTasks()
         {
-            return _taskStorage.GetAll();
+            return _taskStorage.GetAll()
+                .OrderBy(x=>x.CreatedOn)
+                .ToArray();
         }
     }
 }
