@@ -24,7 +24,7 @@ namespace WorkInOrder.Tests
 
             var result = command.Run().Single();
 
-            _storage.Verify(x => x.Create(It.IsAny<DateTime>(), something));
+            _storage.Verify(x => x.Create(It.IsAny<DateTime>(), something, Status.Pending));
             result.Expect($"{something} has been added to current todo list", Format.Neutral);
         }
 
@@ -58,7 +58,7 @@ namespace WorkInOrder.Tests
 
             command.Run();
 
-            _storage.Verify(x=>x.Create(It.IsAny<DateTime>(), task));
+            _storage.Verify(x=>x.Create(It.IsAny<DateTime>(), task, Status.Pending));
         }
     }
 }

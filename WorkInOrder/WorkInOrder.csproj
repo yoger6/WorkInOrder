@@ -75,6 +75,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLogic\TaskBoard.cs" />
     <Compile Include="Commands\ActivateCommand.cs" />
     <Compile Include="Commands\AddCommand.cs" />
     <Compile Include="Commands\CommandFactory.cs" />

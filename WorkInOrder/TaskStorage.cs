@@ -16,18 +16,21 @@ namespace WorkInOrder
             _connectionString = connectionString;
         }
 
-        public void Create(DateTime createdOn, string content)
+        public void Create(DateTime createdOn, string content, Status status = Status.Pending)
         {
             try
             {
-                RunNonQuery("INSERT INTO Tasks (Content, CreatedOn, Status) VALUES (@Content, @CreatedOn, @Status)", new SqliteParameter("@Content", content), new SqliteParameter("@CreatedOn", createdOn), new SqliteParameter("@Status", Status.Pending));
+                RunNonQuery("INSERT INTO Tasks (Content, CreatedOn, Status) VALUES (@Content, @CreatedOn, @Status)", 
+                    new SqliteParameter("@Content", content), 
+                    new SqliteParameter("@CreatedOn", createdOn), 
+                    new SqliteParameter("@Status", status));
             }
-            catch (SqliteException e) when( e.SqliteErrorCode == 19)
+            catch (SqliteException e) when (e.SqliteErrorCode == 19)
             {
                 throw new TaskAlreadyExistsException(content);
             }
         }
-
+        
         public Task[] GetTasks()
         {
             const string commandText = @"SELECT Content, Status, CreatedOn, CompletedOn FROM Tasks;";
@@ -66,6 +69,17 @@ namespace WorkInOrder
             {
                 return RunScalar("SELECT 1 FROM Tasks WHERE Content = @Content", new SqliteParameter("@Content", name)) != null;
             }
+        }
+
+        public Task Find(Status status)
+        {
+            var results = RunReader(
+                "SELECT Content, Status, CreatedOn, CompletedOn FROM Tasks WHERE Status = @Status;",
+                Read,
+                new SqliteParameter("@Status", status)
+                ).ToArray();
+
+            return results.SingleOrDefault();
         }
 
 

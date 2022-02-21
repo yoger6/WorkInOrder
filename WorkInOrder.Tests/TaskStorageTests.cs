@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using WorkInOrder.Tests.BusinessLogic;
 using Xunit;
 
 namespace WorkInOrder.Tests
@@ -90,6 +91,22 @@ namespace WorkInOrder.Tests
             _storage.Create(DateTime.Now, "Bob2");
 
             Assert.Throws<NonUniqueNameException>(() => _storage.Find("Bob"));
+        }
+
+        [Fact]
+        public void FindsTaskWithGivenStatus()
+        {
+            // Arrange
+            var expected = TestTask.Active();
+            _storage.Create(expected.CreatedOn, expected.Name, expected.Status);
+
+            // Act
+            var actual = _storage.Find(Status.Current);
+
+            // Assert
+            Assert.NotNull(actual);
+            Assert.Equal(Status.Current, actual.Status);
+            Assert.Equal(expected.Name, actual.Name);
         }
 
         public void Dispose()

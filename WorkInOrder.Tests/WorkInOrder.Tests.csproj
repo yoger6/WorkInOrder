@@ -102,6 +102,8 @@
   <ItemGroup>
     <Compile Include="ActivateCommandTests.cs" />
     <Compile Include="AddCommandTests.cs" />
+    <Compile Include="BusinessLogic\TaskBoardTests.cs" />
+    <Compile Include="BusinessLogic\TestTask.cs" />
     <Compile Include="DoneCommandTests.cs" />
     <Compile Include="ListCommandTests.cs" />
     <Compile Include="NullCommandTests.cs" />
@@ -124,6 +126,7 @@
       <Name>WorkInOrder</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
