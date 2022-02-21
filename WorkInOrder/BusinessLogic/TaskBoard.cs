@@ -1,6 +1,6 @@
 ﻿namespace WorkInOrder.BusinessLogic
 {
-    public class TaskBoard
+    public class TaskBoard : ITaskBoard
     {
         private readonly ITaskStorage _taskStorage;
 
