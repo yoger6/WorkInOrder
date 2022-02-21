@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Moq;
+using WorkInOrder.Commands;
 using Xunit;
 
 namespace WorkInOrder.Tests
