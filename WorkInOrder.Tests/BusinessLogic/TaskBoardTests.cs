@@ -85,5 +85,34 @@ namespace WorkInOrder.Tests.BusinessLogic
             Assert.NotNull(list);
             Assert.Empty(list);
         }
+
+        [Fact]
+        public void CreatesPendingTaskWhenThereIsAlreadyActiveOne()
+        {
+            // Arrange
+            _storage.Setup(x => x.Find(Status.Current)).Returns(TestTask.Active);
+            var expected = TestTask.Pending();
+
+            // Act
+            _board.Add(expected.Name);
+
+            // Assert
+            _storage.Verify(x =>
+                x.Create(It.IsAny<DateTime>(), expected.Name, Status.Pending));
+        }
+
+        [Fact]
+        public void CreatesActiveTask()
+        {
+            // Arrange
+            var expected = TestTask.Pending();
+
+            // Act
+            _board.Add(expected.Name);
+
+            // Assert
+            _storage.Verify(x =>
+                x.Create(It.IsAny<DateTime>(), expected.Name, Status.Current));
+        }
     }
 }
