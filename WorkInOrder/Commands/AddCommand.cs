@@ -33,7 +33,7 @@ namespace WorkInOrder.Commands
 
         private bool IsThereAnActiveTaskPresent()
         {
-            return _storage.GetTasks().Any(x => x.Status == Status.Current);
+            return _storage.GetAll().Any(x => x.Status == Status.Current);
         }
     }
 }

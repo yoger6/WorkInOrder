@@ -18,7 +18,7 @@ namespace WorkInOrder.Tests
 
             _storage.Create(date, content);
 
-            var tasks = _storage.GetTasks();
+            var tasks = _storage.GetAll();
             var task = tasks.Single(x=>x.Name == content);
             Assert.Equal(date, task.CreatedOn);
         }
@@ -29,7 +29,7 @@ namespace WorkInOrder.Tests
             _storage.Create(DateTime.Now, Guid.NewGuid().ToString());
             _storage.Create(DateTime.Now, Guid.NewGuid().ToString());
 
-            var tasks = _storage.GetTasks();
+            var tasks = _storage.GetAll();
 
             Assert.Equal(2, tasks.Length);
         }
@@ -51,7 +51,7 @@ namespace WorkInOrder.Tests
 
             _storage.UpdateStatus(name, Status.Done);
 
-            var task = _storage.GetTasks().Single();
+            var task = _storage.GetAll().Single();
             Assert.Equal(Status.Done, task.Status);
         }
 
@@ -63,7 +63,7 @@ namespace WorkInOrder.Tests
 
             _storage.UpdateStatus(name, Status.Done);
 
-            var task = _storage.GetTasks().Single();
+            var task = _storage.GetAll().Single();
             Assert.NotNull(task.CompletedOn);
 
         }

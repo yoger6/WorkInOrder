@@ -15,7 +15,7 @@ namespace WorkInOrder.Tests
         public SwitchCommandTests()
         {
             _factory = new CommandFactory(_storage.Object);
-            _storage.Setup(x => x.GetTasks()).Returns(new[] { new Task(DateTime.Now, ExistingTask, Status.Current) });
+            _storage.Setup(x => x.GetAll()).Returns(new[] { new Task(DateTime.Now, ExistingTask, Status.Current) });
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace WorkInOrder.Tests
         public void PreviousTaskBecomesPending()
         {
             const string newTask = "abcd";
-            _storage.Setup(x => x.GetTasks()).Returns(new[] {new Task(DateTime.Now, ExistingTask, Status.Current), new Task(DateTime.Now, newTask, Status.Pending)});
+            _storage.Setup(x => x.GetAll()).Returns(new[] {new Task(DateTime.Now, ExistingTask, Status.Current), new Task(DateTime.Now, newTask, Status.Pending)});
 
             var result = Run(newTask);
 

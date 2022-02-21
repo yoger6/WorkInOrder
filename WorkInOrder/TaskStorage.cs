@@ -31,7 +31,7 @@ namespace WorkInOrder
             }
         }
         
-        public Task[] GetTasks()
+        public Task[] GetAll()
         {
             const string commandText = @"SELECT Content, Status, CreatedOn, CompletedOn FROM Tasks;";
             return RunReader(commandText, Read).ToArray();

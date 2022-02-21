@@ -27,11 +27,11 @@ namespace WorkInOrder.Tests
                 new Task(DateTime.Now.AddMinutes(2), "Test", Status.Current),
                 new Task(DateTime.Now.AddMinutes(3), "Deploy", Status.Pending),
             };
-            _storage.Setup(x => x.GetTasks()).Returns(
+            _storage.Setup(x => x.GetAll()).Returns(
                 tasks);
             var result = Run();
 
-            _storage.Verify(x => x.GetTasks(), Times.Once);
+            _storage.Verify(x => x.GetAll(), Times.Once);
 
             Assert.StartsWith("+ Code", result[0].Content);
             Assert.Equal(Format.Positive, result[0].Format);
@@ -51,7 +51,7 @@ namespace WorkInOrder.Tests
                 new Task(DateTime.Now.AddDays(1), "Second", Status.Pending),
                 new Task(DateTime.Now, "First", Status.Pending),
             };
-            _storage.Setup(x => x.GetTasks()).Returns(tasks);
+            _storage.Setup(x => x.GetAll()).Returns(tasks);
 
             var result = Run();
 
@@ -75,7 +75,7 @@ namespace WorkInOrder.Tests
                 new Task(DateTime.Now, "First", Status.Done, DateTime.Now.AddDays(1)),
                 new Task(DateTime.Now.AddDays(1), "Second", Status.Done, DateTime.Now.AddDays(2)),
             };
-            _storage.Setup(x => x.GetTasks()).Returns(tasks);
+            _storage.Setup(x => x.GetAll()).Returns(tasks);
 
             var result = Run("d");
 

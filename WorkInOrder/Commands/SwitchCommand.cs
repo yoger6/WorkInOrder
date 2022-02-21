@@ -16,14 +16,14 @@ namespace WorkInOrder.Commands
 
         public OutputMessage[] Run()
         {
-            var task = _storage.GetTasks().SingleOrDefault(x => x.Name == _message);
+            var task = _storage.GetAll().SingleOrDefault(x => x.Name == _message);
 
             if (task == null)
             {
                 return OutputMessage.Negative($"{_message} does not exist");
             }
 
-            var currentTask = _storage.GetTasks().SingleOrDefault(x => x.Status == Status.Current);
+            var currentTask = _storage.GetAll().SingleOrDefault(x => x.Status == Status.Current);
             if (currentTask != null)
             {
                 _storage.UpdateStatus(currentTask.Name, Status.Pending);

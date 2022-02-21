@@ -15,7 +15,7 @@ namespace WorkInOrder.Tests
         public DoneCommandTests()
         {
             _factory = new CommandFactory(_storage.Object);
-            _storage.Setup(x => x.GetTasks()).Returns(new[] { new Task(DateTime.Now, ExistingTask, Status.Pending) });
+            _storage.Setup(x => x.GetAll()).Returns(new[] { new Task(DateTime.Now, ExistingTask, Status.Pending) });
         }
 
         [Fact]
@@ -29,7 +29,7 @@ namespace WorkInOrder.Tests
         [Fact]
         public void MarkCurrentTaskAsDone()
         {
-            _storage.Setup(x => x.GetTasks()).Returns(new[] {new Task(DateTime.Now, ExistingTask, Status.Current)});
+            _storage.Setup(x => x.GetAll()).Returns(new[] {new Task(DateTime.Now, ExistingTask, Status.Current)});
 
             Complete();
 
@@ -40,7 +40,7 @@ namespace WorkInOrder.Tests
         public void ActivateSubsequentTask()
         {
             const string nextTask = "something to get busy with;";
-            _storage.Setup(x => x.GetTasks()).Returns(new[] {new Task(DateTime.Now, ExistingTask, Status.Current), new Task(DateTime.Now.AddDays(1), nextTask, Status.Pending)});
+            _storage.Setup(x => x.GetAll()).Returns(new[] {new Task(DateTime.Now, ExistingTask, Status.Current), new Task(DateTime.Now.AddDays(1), nextTask, Status.Pending)});
 
             Complete();
 

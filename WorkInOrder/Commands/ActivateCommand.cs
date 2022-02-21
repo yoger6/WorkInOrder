@@ -15,7 +15,7 @@ namespace WorkInOrder.Commands
 
         public OutputMessage[] Run()
         {
-            var tasks = _storage.GetTasks();
+            var tasks = _storage.GetAll();
             var taskToActivate = tasks.SingleOrDefault(x => x.Name == _taskName);
             if (taskToActivate == null)
             {

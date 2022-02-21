@@ -13,5 +13,10 @@
         {
             return _taskStorage.Find(Status.Current);
         }
+
+        public Task[] ListTasks()
+        {
+            return _taskStorage.GetAll();
+        }
     }
 }

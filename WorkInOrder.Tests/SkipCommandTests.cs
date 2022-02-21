@@ -15,7 +15,7 @@ namespace WorkInOrder.Tests
         public SkipCommandTests()
         {
             _factory = new CommandFactory(_storage.Object);
-            _storage.Setup(x => x.GetTasks()).Returns(new[] { new Task(DateTime.Now, ExistingTask, Status.Pending) });
+            _storage.Setup(x => x.GetAll()).Returns(new[] { new Task(DateTime.Now, ExistingTask, Status.Pending) });
         }
 
         [Fact]
@@ -29,7 +29,7 @@ namespace WorkInOrder.Tests
         [Fact]
         public void MarksCurrentTaskAsSkipped()
         {
-            _storage.Setup(x => x.GetTasks()).Returns(new[] { new Task(DateTime.Now, ExistingTask, Status.Current) });
+            _storage.Setup(x => x.GetAll()).Returns(new[] { new Task(DateTime.Now, ExistingTask, Status.Current) });
 
             Run();
 
@@ -40,7 +40,7 @@ namespace WorkInOrder.Tests
         public void ActivatesSubsequentTask()
         {
             const string freshTask = "aah fresh meat";
-            _storage.Setup(x => x.GetTasks()).Returns(new[] {new Task(DateTime.Now, freshTask, Status.Pending), new Task(DateTime.Now.AddDays(-1), ExistingTask, Status.Current)});
+            _storage.Setup(x => x.GetAll()).Returns(new[] {new Task(DateTime.Now, freshTask, Status.Pending), new Task(DateTime.Now.AddDays(-1), ExistingTask, Status.Current)});
 
             Run();
 

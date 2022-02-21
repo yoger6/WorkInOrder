@@ -13,7 +13,7 @@ namespace WorkInOrder.Commands
 
         public OutputMessage[] Run()
         {
-            var tasks = _storage.GetTasks();
+            var tasks = _storage.GetAll();
             var currentTask = tasks.SingleOrDefault(x => x.Status == Status.Current);
 
             if (currentTask == null)

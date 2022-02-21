@@ -17,7 +17,7 @@ namespace WorkInOrder.Commands
 
         public OutputMessage[] Run()
         {
-            var tasks = _storage.GetTasks().OrderBy(x=>x.CreatedOn);
+            var tasks = _storage.GetAll().OrderBy(x=>x.CreatedOn);
 
             if (!tasks.Any())
             {

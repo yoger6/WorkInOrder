@@ -13,7 +13,7 @@ namespace WorkInOrder.Commands
 
         public OutputMessage[] Run()
         {
-            var tasks = _storage.GetTasks().OrderBy(x=>x.CreatedOn).ToArray();
+            var tasks = _storage.GetAll().OrderBy(x=>x.CreatedOn).ToArray();
             var task = tasks.SingleOrDefault(x => x.Status == Status.Current);
 
             if (task == null)

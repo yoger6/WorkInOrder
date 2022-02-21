@@ -15,7 +15,7 @@ namespace WorkInOrder.Tests
         public ActivateCommandTests()
         {
             _factory = new CommandFactory(_storage.Object);
-            _storage.Setup(x => x.GetTasks()).Returns(new[] {new Task(DateTime.Now, PendingTask, Status.Pending)});
+            _storage.Setup(x => x.GetAll()).Returns(new[] {new Task(DateTime.Now, PendingTask, Status.Pending)});
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace WorkInOrder.Tests
         public void SkipsTaskThatWasPreviouslySetAsCurrent()
         {
             const string previousTask = "boringTask";
-            _storage.Setup(x => x.GetTasks()).Returns(new[] {new Task(DateTime.Now, previousTask, Status.Current), new Task(DateTime.Now, PendingTask, Status.Pending)});
+            _storage.Setup(x => x.GetAll()).Returns(new[] {new Task(DateTime.Now, previousTask, Status.Current), new Task(DateTime.Now, PendingTask, Status.Pending)});
             var command = _factory.Identify($"activate {PendingTask}");
 
             command.Run();
@@ -54,7 +54,7 @@ namespace WorkInOrder.Tests
         [Fact]
         public void DoesNotUpdateTheTaskThatIsAlreadyActive()
         {
-            _storage.Setup(x => x.GetTasks()).Returns(new[] {new Task(DateTime.Now, PendingTask, Status.Current)});
+            _storage.Setup(x => x.GetAll()).Returns(new[] {new Task(DateTime.Now, PendingTask, Status.Current)});
             var command = _factory.Identify($"activate {PendingTask}");
 
             var result = command.Run();

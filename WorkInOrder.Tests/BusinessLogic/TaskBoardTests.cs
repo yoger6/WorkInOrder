@@ -23,11 +23,11 @@ namespace WorkInOrder.Tests.BusinessLogic
             _storage.Setup(x => x.Find(Status.Current)).Returns(expected);
 
             // Act
-            var task = _board.GetActiveTask();
+            var actual = _board.GetActiveTask();
 
             // Assert
             
-            Assert.NotNull(task);
+            Assert.Same(expected, actual);
         }
 
         [Fact]
@@ -38,6 +38,35 @@ namespace WorkInOrder.Tests.BusinessLogic
 
             // Assert
             Assert.Null(task);
+        }
+
+        [Fact]
+        public void ListsAllTheTasks()
+        {
+            // Arrange
+            var expected = new[]
+            {
+                TestTask.Active(),
+                TestTask.Pending()
+            };
+            _storage.Setup(x => x.GetAll()).Returns(expected);
+
+            // Act
+            var actual = _board.ListTasks();
+
+            // Assert
+            Assert.Same(expected, actual);
+        }
+
+        [Fact]
+        public void ListCanBeEmpty()
+        {
+            // Act
+            var list = _board.ListTasks();
+
+            // Assert
+            Assert.NotNull(list);
+            Assert.Empty(list);
         }
     }
 }
