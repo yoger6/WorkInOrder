@@ -35,5 +35,10 @@ namespace WorkInOrder
         {
             _storage.UpdateStatus(Name, Status.Current);
         }
+
+        public void Complete()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -12,5 +12,6 @@ namespace WorkInOrder
 
         void Skip();
         void Activate();
+        void Complete();
     }
 }

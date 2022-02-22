@@ -20,7 +20,7 @@ namespace WorkInOrder.BusinessLogic
         public ITask[] ListTasks()
         {
             return _taskStorage.GetAll()
-                .OrderBy(x=>x.CreatedOn)
+                .OrderBy(x => x.CreatedOn)
                 .ToArray();
         }
 
@@ -51,7 +51,7 @@ namespace WorkInOrder.BusinessLogic
         /// Skips current task, activating next one if there is one in the future.
         /// </summary>
         /// <exception cref="TaskNotFoundException">When there's no active task</exception>
-        /// <returns></returns>
+        /// <returns>Name of skipped task and optionally activated one</returns>
         public (string Skipped, string Activated) Skip()
         {
             var activeTask = GetActiveTask();
@@ -59,9 +59,33 @@ namespace WorkInOrder.BusinessLogic
             {
                 throw new TaskNotFoundException();
             }
-            
+
             var nextTask = _taskStorage.FindFirstAvailableSince(activeTask.CreatedOn);
             activeTask.Skip();
+
+            if (nextTask != null)
+            {
+                nextTask.Activate();
+            }
+
+            return (activeTask.Name, nextTask?.Name);
+        }
+
+        /// <summary>
+        /// Completes task that's currently active
+        /// </summary>
+        /// <exception cref="TaskNotFoundException">When there's no active task</exception>
+        /// <returns>Name of completed task and optionally activated one</returns>
+        public (string Completed, string Activated) Done()
+        {
+            var activeTask = GetActiveTask();
+            if (activeTask == null)
+            {
+                throw new TaskNotFoundException();
+            }
+
+            var nextTask = _taskStorage.FindFirstAvailableSince(activeTask.CreatedOn);
+            activeTask.Complete();
 
             if (nextTask != null)
             {
