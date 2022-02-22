@@ -86,6 +86,7 @@
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="Format.cs" />
     <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="ITask.cs" />
     <Compile Include="ITaskStorage.cs" />
     <Compile Include="Commands\ListCommand.cs" />
     <Compile Include="MissingContentException.cs" />

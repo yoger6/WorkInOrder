@@ -28,7 +28,7 @@ namespace WorkInOrder.Commands
             return FormatTasks(tasks).ToArray();
         }
 
-        private IEnumerable<OutputMessage> FormatTasks(IEnumerable<Task> tasks)
+        private IEnumerable<OutputMessage> FormatTasks(IEnumerable<ITask> tasks)
         {
             var prefixFactory = new Func<Status, string>(
                 s =>

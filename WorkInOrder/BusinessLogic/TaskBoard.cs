@@ -12,12 +12,12 @@ namespace WorkInOrder.BusinessLogic
             _taskStorage = taskStorage;
         }
 
-        public Task GetActiveTask()
+        public ITask GetActiveTask()
         {
             return _taskStorage.Find(Status.Current);
         }
 
-        public Task[] ListTasks()
+        public ITask[] ListTasks()
         {
             return _taskStorage.GetAll()
                 .OrderBy(x=>x.CreatedOn)
@@ -45,6 +45,17 @@ namespace WorkInOrder.BusinessLogic
             {
                 _taskStorage.Create(DateTime.Now, content, Status.Pending);
             }
+        }
+
+        public void Skip()
+        {
+            var activeTask = GetActiveTask();
+            if (activeTask == null)
+            {
+                throw new TaskNotFoundException();
+            }
+
+            activeTask.Skip();
         }
     }
 }

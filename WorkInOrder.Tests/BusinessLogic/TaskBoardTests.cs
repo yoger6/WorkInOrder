@@ -121,5 +121,26 @@ namespace WorkInOrder.Tests.BusinessLogic
             // Assert
             Assert.Throws<MissingContentException>(() => _board.Add(string.Empty));
         }
+
+        [Fact]
+        public void CannotSkipIfNoTaskIsActive()
+        {
+            // Assert
+            Assert.Throws<TaskNotFoundException>(() => _board.Skip());
+        }
+
+        [Fact]
+        public void SkipsActiveTask()
+        {
+            // Arrange
+            var taskMock = new Mock<ITask>();
+            _storage.Setup(x => x.Find(Status.Current)).Returns(taskMock.Object);
+
+            // Act
+            _board.Skip();
+
+            // Assert
+            taskMock.Verify(x=>x.Skip());
+        }
     }
 }

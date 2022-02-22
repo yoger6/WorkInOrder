@@ -2,8 +2,9 @@
 {
     public interface ITaskBoard
     {
-        Task GetActiveTask();
-        Task[] ListTasks();
+        ITask GetActiveTask();
+        ITask[] ListTasks();
         void Add(string content);
+        void Skip();
     }
 }

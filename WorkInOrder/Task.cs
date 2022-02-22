@@ -2,7 +2,7 @@ using System;
 
 namespace WorkInOrder
 {
-    public class Task
+    public class Task : ITask
     {
         public Task(DateTime createdOn, string name, Status status, DateTime? completedOn = null)
         {
@@ -17,5 +17,9 @@ namespace WorkInOrder
         public string Name { get; }
         public Status Status { get; }
         public bool IsCompleted => Status == Status.Done;
+        public void Skip()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

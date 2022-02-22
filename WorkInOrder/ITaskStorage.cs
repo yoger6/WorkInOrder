@@ -5,8 +5,8 @@ namespace WorkInOrder
     public interface ITaskStorage
     {
         void Create(DateTime createdOn, string content, Status status = Status.Pending);
-        Task[] GetAll();
+        ITask[] GetAll();
         void UpdateStatus(string name, Status status);
-        Task Find(Status status);
+        ITask Find(Status status);
     }
 }

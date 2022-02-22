@@ -31,7 +31,7 @@ namespace WorkInOrder
             }
         }
         
-        public Task[] GetAll()
+        public ITask[] GetAll()
         {
             const string commandText = @"SELECT Content, Status, CreatedOn, CompletedOn FROM Tasks;";
             return RunReader(commandText, Read).ToArray();
@@ -39,7 +39,7 @@ namespace WorkInOrder
 
         
 
-        private Task Read(SqliteDataReader reader)
+        private ITask Read(SqliteDataReader reader)
         {
             return new Task(
                 DateTime.Parse((string) reader[2]),
@@ -71,7 +71,7 @@ namespace WorkInOrder
             }
         }
 
-        public Task Find(Status status)
+        public ITask Find(Status status)
         {
             var results = RunReader(
                 "SELECT Content, Status, CreatedOn, CompletedOn FROM Tasks WHERE Status = @Status;",
@@ -83,7 +83,7 @@ namespace WorkInOrder
         }
 
 
-        public Task Find(string phrase)
+        public ITask Find(string phrase)
         {
             var results = RunReader(
                 "SELECT Content, Status, CreatedOn, CompletedOn FROM Tasks WHERE Content LIKE @Phrase;", 
