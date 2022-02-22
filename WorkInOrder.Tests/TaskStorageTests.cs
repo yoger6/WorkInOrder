@@ -8,7 +8,7 @@ namespace WorkInOrder.Tests
     public class TaskStorageTests : IDisposable
     {
         private const string ConnectionString = "DataSource=WorkInOrder.sqlite";
-        private TaskStorage _storage = new TaskStorage(ConnectionString);
+        private readonly TaskStorage _storage = new TaskStorage(ConnectionString);
 
         [Fact]
         public void CreatesNewTask()
@@ -107,6 +107,64 @@ namespace WorkInOrder.Tests
             Assert.NotNull(actual);
             Assert.Equal(Status.Current, actual.Status);
             Assert.Equal(expected.Name, actual.Name);
+        }
+
+        [Fact]
+        public void FindsAvailableTaskExactlyOnTheDate()
+        {
+            // Arrange
+            var date = DateTime.Now;
+            _storage.Create(date, "test");
+
+            // Act
+            var task = _storage.FindFirstAvailableSince(date);
+
+            // Assert
+            Assert.NotNull(task);
+        }
+
+        [Fact]
+        public void FindsSkippedTasksFromTheFuture()
+        {
+            // Arrange
+            var date = DateTime.Now;
+            _storage.Create(date.AddDays(1), "test", Status.Skipped);
+
+            // Act
+            var task = _storage.FindFirstAvailableSince(date);
+
+            // Assert
+            Assert.NotNull(task);
+        }
+
+        [Fact]
+        public void DoesNotFindTaskPriorToDate()
+        {
+            // Arrange
+            var date = DateTime.Now;
+            _storage.Create(date.AddDays(-1), "test");
+
+            // Act
+            var task = _storage.FindFirstAvailableSince(date);
+
+            // Assert
+            Assert.Null(task);
+        }
+
+        [Theory]
+        [InlineData(Status.Current)]
+        [InlineData(Status.Done)]
+        public void DoesNotFindActiveOrCompletedTasks(Status status)
+        {
+            // Arrange
+            var date = DateTime.Now;
+            _storage.Create(date.AddDays(-1), "test", status);
+
+            // Act
+            var task = _storage.FindFirstAvailableSince(date);
+
+            // Assert
+            Assert.Null(task);
         }
 
         public void Dispose()

@@ -82,6 +82,19 @@ namespace WorkInOrder
             return results.SingleOrDefault();
         }
 
+        public ITask FindFirstAvailableSince(DateTime since)
+        {
+            var results = RunReader(
+                "SELECT Content, Status, CreatedOn, CompletedOn FROM Tasks WHERE Status IN (@PendingStatus, @SkippedStatus) AND CreatedOn >= @Since ORDER BY CreatedOn;",
+                Read,
+                new SqliteParameter("@PendingStatus", Status.Pending),
+                new SqliteParameter("@SkippedStatus", Status.Skipped),
+                new SqliteParameter("@Since", since)
+                ).ToArray();
+
+            return results.SingleOrDefault();
+        }
+
 
         public ITask Find(string phrase)
         {
