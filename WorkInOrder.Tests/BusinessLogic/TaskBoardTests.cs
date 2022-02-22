@@ -197,5 +197,26 @@ namespace WorkInOrder.Tests.BusinessLogic
             // Assert
             subsequentTask.Verify(x => x.Activate());
         }
+
+        [Fact]
+        public void ActivatesSpecifiedTask()
+        {
+            // Arrange
+            var task = TestTask.Mocked();
+            _storage.Setup(x => x.Find(task.Name)).Returns(task.Object);
+
+            // Act
+            _board.Activate(task.Name);
+
+            // Assert
+            task.Verify(x=>x.Activate());
+        }
+
+        [Fact]
+        public void CannotActivateTaskThatDoesNotExist()
+        {
+            // Assert
+            Assert.Throws<TaskNotFoundException>(() => _board.Activate("test"));
+        }
     }
 }

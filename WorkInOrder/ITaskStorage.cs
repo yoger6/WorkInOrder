@@ -8,6 +8,7 @@ namespace WorkInOrder
         ITask[] GetAll();
         void UpdateStatus(string name, Status status);
         ITask Find(Status status);
+        ITask Find(string name);
         ITask FindFirstAvailableSince(DateTime since);
         void UpdateCompletionDate(string content, DateTime date);
     }

@@ -94,5 +94,17 @@ namespace WorkInOrder.BusinessLogic
 
             return (activeTask.Name, nextTask?.Name);
         }
+
+        public void Activate(string name)
+        {
+            var task = _taskStorage.Find(name);
+
+            if (task == null)
+            {
+                throw new TaskNotFoundException();
+            }
+
+            task.Activate();
+        }
     }
 }

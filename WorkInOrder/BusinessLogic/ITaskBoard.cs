@@ -7,5 +7,6 @@
         void Add(string content);
         (string Skipped, string Activated) Skip();
         (string Completed, string Activated) Done();
+        void Activate(string name);
     }
 }
