@@ -31,7 +31,7 @@ namespace WorkInOrder.Commands
                 case "skip":
                     return new SkipCommand(_board);
                 case "done":
-                    return new DoneCommand(_storage);
+                    return new DoneCommand(_board);
                 case "switch":
                     return new SwitchCommand(_storage, message);
             }

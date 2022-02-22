@@ -1,39 +1,36 @@
 using System.Collections.Generic;
-using System.Linq;
+using WorkInOrder.BusinessLogic;
 
 namespace WorkInOrder.Commands
 {
     internal class DoneCommand : ICommand
     {
-        private readonly ITaskStorage _storage;
+        private readonly ITaskBoard _board;
 
-        public DoneCommand(ITaskStorage storage)
+        public DoneCommand(ITaskBoard board)
         {
-            _storage = storage;
+            _board = board;
         }
 
         public IList<OutputMessage> Run()
         {
-            var tasks = _storage.GetAll();
-            var currentTask = tasks.SingleOrDefault(x => x.Status == Status.Current);
+            try
+            {
+                var result = _board.Done();
+                var output = new List<OutputMessage>();
+                output.AddRange(OutputMessage.Neutral($"{result.Completed} completed"));
 
-            if (currentTask == null)
+                if (!string.IsNullOrWhiteSpace(result.Activated))
+                {
+                    output.AddRange(OutputMessage.Neutral($"{result.Activated} is now active"));
+                }
+
+                return output;
+            }
+            catch (TaskNotFoundException)
             {
                 return OutputMessage.Negative("There's not active task to complete");
             }
-
-            _storage.UpdateStatus(currentTask.Name, Status.Done);
-
-            var nextTask = tasks.FirstOrDefault(x => x.CreatedOn > currentTask.CreatedOn);
-            var outcome = OutputMessage.Neutral($"{currentTask.Name} completed");
-            if (nextTask != null)
-            {
-                var command = new ActivateCommand(_storage, nextTask.Name);
-                var activationResult = command.Run();
-                return outcome.Concat(activationResult).ToArray();
-            }
-
-            return outcome;
         }
     }
 }
