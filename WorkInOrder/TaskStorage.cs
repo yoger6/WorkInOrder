@@ -27,7 +27,7 @@ namespace WorkInOrder
             }
             catch (SqliteException e) when (e.SqliteErrorCode == 19)
             {
-                throw new TaskAlreadyExistsException(content);
+                throw new TaskAlreadyExistsException();
             }
         }
         

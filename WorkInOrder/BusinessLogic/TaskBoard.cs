@@ -24,8 +24,19 @@ namespace WorkInOrder.BusinessLogic
                 .ToArray();
         }
 
+        /// <summary>
+        /// Stores a new task, activates it if there's no other.
+        /// </summary>
+        /// <exception cref="MissingContentException">Task needs content to exist</exception>
+        /// <exception cref="TaskAlreadyExistsException">Task content must be unique</exception>
+        /// <param name="content">What is the task about</param>
         public void Add(string content)
         {
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                throw new MissingContentException();
+            }
+
             if (GetActiveTask() == null)
             {
                 _taskStorage.Create(DateTime.Now, content, Status.Current);

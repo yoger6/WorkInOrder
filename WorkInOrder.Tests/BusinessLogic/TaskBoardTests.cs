@@ -114,5 +114,12 @@ namespace WorkInOrder.Tests.BusinessLogic
             _storage.Verify(x =>
                 x.Create(It.IsAny<DateTime>(), expected.Name, Status.Current));
         }
+
+        [Fact]
+        public void TaskMustHaveContent()
+        {
+            // Assert
+            Assert.Throws<MissingContentException>(() => _board.Add(string.Empty));
+        }
     }
 }

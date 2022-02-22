@@ -1,39 +1,34 @@
-using System;
-using System.Linq;
+using WorkInOrder.BusinessLogic;
 
 namespace WorkInOrder.Commands
 {
     internal class AddCommand : ICommand
     {
-        private readonly ITaskStorage _storage;
+        private readonly ITaskBoard _board;
         private readonly string _message;
 
-        public AddCommand(ITaskStorage storage, string message)
+        public AddCommand(ITaskBoard board, string message)
         {
-            _storage = storage;
             _message = message;
+            _board = board;
         }
 
         public OutputMessage[] Run()
         {
-            if (string.IsNullOrWhiteSpace(_message))
+            try
+            {
+                _board.Add(_message);
+            }
+            catch (MissingContentException)
             {
                 return OutputMessage.Negative("Missing task description");
             }
-
-            _storage.Create(DateTime.Now, _message);
-
-            if (!IsThereAnActiveTaskPresent())
+            catch (TaskAlreadyExistsException)
             {
-                _storage.UpdateStatus(_message, Status.Current);
+                return OutputMessage.Negative($"Task {_message} already exists");
             }
 
             return OutputMessage.Neutral($"{_message} has been added to current todo list");
-        }
-
-        private bool IsThereAnActiveTaskPresent()
-        {
-            return _storage.GetAll().Any(x => x.Status == Status.Current);
         }
     }
 }

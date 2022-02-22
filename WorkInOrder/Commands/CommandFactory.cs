@@ -23,7 +23,7 @@ namespace WorkInOrder.Commands
                 default:
                     return new UnknownCommand(input);
                 case "add":
-                    return new AddCommand(_storage, message);
+                    return new AddCommand(_board, message);
                 case "list":
                     return new ListCommand(_board, message);
                 case "activate":

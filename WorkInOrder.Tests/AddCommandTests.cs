@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Moq;
 using WorkInOrder.BusinessLogic;
@@ -10,48 +9,36 @@ namespace WorkInOrder.Tests
     public class AddCommandTests
     {
         private readonly CommandFactory _factory;
-        private readonly Mock<ITaskStorage> _storage = new Mock<ITaskStorage>();
         private readonly Mock<ITaskBoard> _board = new Mock<ITaskBoard>();
 
         public AddCommandTests()
         {
-            _factory = new CommandFactory(_storage.Object, _board.Object);
+            _factory = new CommandFactory(Mock.Of<ITaskStorage>(), _board.Object);
         }
 
         [Fact]
-        public void AddCommand_AddsNewTaskToDo()
+        public void AddCommand_AddsNewTaskToTheBoard()
         {
             const string something = "Something";
             var command = _factory.Identify($"add {something}");
 
             var result = command.Run().Single();
 
-            _storage.Verify(x => x.Create(It.IsAny<DateTime>(), something, Status.Pending));
+            _board.Verify(x => x.Add(something));
             result.Expect($"{something} has been added to current todo list", Format.Neutral);
         }
 
         [Fact]
         public void AddCommand_ErrorWhenEmptyName()
         {
+            _board.Setup(x => x.Add(string.Empty)).Throws<MissingContentException>();
             var command = _factory.Identify("add");
 
             var result = command.Run().Single();
 
             result.Expect("Missing task description", Format.Negative);
         }
-
-        [Fact]
-        public void AddCommand_ActivatesTask_WhenNoneIsActiveYet()
-        {
-            const string task = "task";
-            var command = _factory.Identify($"add {task}");
-            
-            command.Run();
-
-            _storage.Verify(x=>x.UpdateStatus(task, Status.Current));
-        }
-
-
+        
         [Fact]
         public void AddCommand_AllowWhitespacesInTaskDescription()
         {
@@ -60,7 +47,22 @@ namespace WorkInOrder.Tests
 
             command.Run();
 
-            _storage.Verify(x=>x.Create(It.IsAny<DateTime>(), task, Status.Pending));
+            _board.Verify(x=>x.Add(task));
+        }
+
+        [Fact]
+        public void Add_Command_NamesMustBeUnique()
+        {
+            // Arrange
+            _board.Setup(x => x.Add(It.IsAny<string>())).Throws<TaskAlreadyExistsException>();
+            var command = _factory.Identify("add abc");
+
+            // Act
+            var result = command.Run();
+
+            // Assert
+            result.Single().Expect("Task abc already exists", Format.Negative);
+
         }
     }
 }

@@ -88,6 +88,7 @@
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="ITaskStorage.cs" />
     <Compile Include="Commands\ListCommand.cs" />
+    <Compile Include="MissingContentException.cs" />
     <Compile Include="NonUniqueNameException.cs" />
     <Compile Include="OutputMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

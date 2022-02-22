@@ -4,5 +4,6 @@
     {
         Task GetActiveTask();
         Task[] ListTasks();
+        void Add(string content);
     }
 }
