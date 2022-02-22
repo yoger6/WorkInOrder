@@ -11,5 +11,6 @@ namespace WorkInOrder
         bool IsCompleted { get; }
 
         void Skip();
+        void Activate();
     }
 }

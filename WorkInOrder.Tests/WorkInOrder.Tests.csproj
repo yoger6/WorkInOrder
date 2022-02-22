@@ -103,6 +103,7 @@
     <Compile Include="ActivateCommandTests.cs" />
     <Compile Include="AddCommandTests.cs" />
     <Compile Include="BusinessLogic\TaskBoardTests.cs" />
+    <Compile Include="BusinessLogic\TaskTests.cs" />
     <Compile Include="BusinessLogic\TestTask.cs" />
     <Compile Include="DoneCommandTests.cs" />
     <Compile Include="ListCommandTests.cs" />
