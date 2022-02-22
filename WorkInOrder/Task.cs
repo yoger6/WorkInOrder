@@ -28,17 +28,12 @@ namespace WorkInOrder
 
         void ITask.Skip()
         {
-            var nextTask = _storage.FindFirstAvailableSince(CreatedOn);
             _storage.UpdateStatus(Name, Status.Skipped);
-            if (nextTask != null)
-            {
-                nextTask.Activate();
-            }
         }
 
         public void Activate()
         {
-            throw new NotImplementedException();
+            _storage.UpdateStatus(Name, Status.Current);
         }
     }
 }

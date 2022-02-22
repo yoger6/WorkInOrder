@@ -54,8 +54,14 @@ namespace WorkInOrder.BusinessLogic
             {
                 throw new TaskNotFoundException();
             }
-
+            
+            var nextTask = _taskStorage.FindFirstAvailableSince(activeTask.CreatedOn);
             activeTask.Skip();
+
+            if (nextTask != null)
+            {
+                nextTask.Activate();
+            }
         }
     }
 }

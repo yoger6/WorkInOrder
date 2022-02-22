@@ -21,18 +21,16 @@ namespace WorkInOrder.Tests.BusinessLogic
         }
 
         [Fact]
-        public void ActivatesSubsequentTask()
+        public void TaskActivatesItself()
         {
             // Arrange
-            var activeTask = TestTask.Active(_storage.Object);
-            var subsequentTask = TestTask.Mocked();
-            _storage.Setup(x => x.FindFirstAvailableSince(activeTask.CreatedOn)).Returns(subsequentTask.Object);
+            var task = TestTask.Pending(_storage.Object);
 
             // Act
-            activeTask.Skip();
+            task.Activate();
 
             // Assert
-            subsequentTask.Verify(x=>x.Activate());
+            _storage.Verify(x=>x.UpdateStatus(task.Name, Status.Current));
         }
     }
 }

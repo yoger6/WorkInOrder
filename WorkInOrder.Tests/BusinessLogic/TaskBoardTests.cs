@@ -142,5 +142,22 @@ namespace WorkInOrder.Tests.BusinessLogic
             // Assert
             taskMock.Verify(x=>x.Skip());
         }
+
+        [Fact]
+        public void ActivatesSubsequentTask()
+        {
+            // Arrange
+            var activeTask = TestTask.Active(_storage.Object);
+            var subsequentTask = TestTask.Mocked();
+            _storage.Setup(x => x.Find(Status.Current)).Returns(activeTask);
+            _storage.Setup(x => x.FindFirstAvailableSince(activeTask.CreatedOn)).Returns(subsequentTask.Object);
+
+            // Act
+            _board.Skip();
+
+            // Assert
+            subsequentTask.Verify(x => x.Activate());
+        }
+
     }
 }
