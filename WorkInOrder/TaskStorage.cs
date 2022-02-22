@@ -95,6 +95,14 @@ namespace WorkInOrder
             return results.SingleOrDefault();
         }
 
+        public void UpdateCompletionDate(string content, DateTime date)
+        {
+            RunNonQuery(
+                "UPDATE Tasks SET CompletedOn = @Date WHERE Content = @Content;", 
+                new SqliteParameter("@Content", content), 
+                new SqliteParameter("@Date", date));
+        }
+
 
         public ITask Find(string phrase)
         {

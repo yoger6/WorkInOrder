@@ -9,5 +9,6 @@ namespace WorkInOrder
         void UpdateStatus(string name, Status status);
         ITask Find(Status status);
         ITask FindFirstAvailableSince(DateTime since);
+        void UpdateCompletionDate(string content, DateTime date);
     }
 }

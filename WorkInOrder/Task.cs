@@ -38,7 +38,8 @@ namespace WorkInOrder
 
         public void Complete()
         {
-            throw new NotImplementedException();
+            _storage.UpdateStatus(Name, Status.Done);
+            _storage.UpdateCompletionDate(Name, DateTime.Now);
         }
     }
 }

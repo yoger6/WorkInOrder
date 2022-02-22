@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System;
+using Moq;
 using Xunit;
 
 namespace WorkInOrder.Tests.BusinessLogic
@@ -31,6 +32,21 @@ namespace WorkInOrder.Tests.BusinessLogic
 
             // Assert
             _storage.Verify(x=>x.UpdateStatus(task.Name, Status.Current));
+        }
+
+        [Fact]
+        public void CompletesItself()
+        {
+            // Arrange
+            var task = TestTask.Active(_storage.Object);
+
+            // Act
+            task.Complete();
+
+            // Assert
+            _storage.Verify(x=>x.UpdateStatus(task.Name, Status.Done));
+            _storage.Verify(x=>x.UpdateCompletionDate(task.Name, It.IsAny<DateTime>()));
+
         }
     }
 }
