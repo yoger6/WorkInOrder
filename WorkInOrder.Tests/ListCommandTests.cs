@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using WorkInOrder.BusinessLogic;
@@ -68,7 +69,7 @@ namespace WorkInOrder.Tests
             result[1].Expect($"+ Second {tasks[1].CreatedOn.ToOutputFormat()}-{tasks[1].CompletedOn.Value.ToOutputFormat()}", Format.Positive);
         }
 
-        private OutputMessage[] Run(string parameter = null)
+        private IList<OutputMessage> Run(string parameter = null)
         {
             var command = _factory.Identify("list " + parameter);
 

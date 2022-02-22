@@ -16,7 +16,7 @@ namespace WorkInOrder.Commands
             _parameter = parameter;
         }
 
-        public OutputMessage[] Run()
+        public IList<OutputMessage> Run()
         {
             var tasks = _board.ListTasks();
 

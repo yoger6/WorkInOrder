@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using WorkInOrder.BusinessLogic;
@@ -49,7 +50,7 @@ namespace WorkInOrder.Tests
             _storage.Verify(x => x.UpdateStatus(nextTask, Status.Current));
         }
 
-        private OutputMessage[] Complete()
+        private IList<OutputMessage> Complete()
         {
             var command = _factory.Identify("done");
             return command.Run();

@@ -1,7 +1,9 @@
-﻿namespace WorkInOrder.Commands
+﻿using System.Collections.Generic;
+
+namespace WorkInOrder.Commands
 {
     public interface ICommand
     {
-        OutputMessage[] Run();
+        IList<OutputMessage> Run();
     }
 }

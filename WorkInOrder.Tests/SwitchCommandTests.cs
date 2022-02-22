@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using WorkInOrder.BusinessLogic;
@@ -49,7 +50,7 @@ namespace WorkInOrder.Tests
             _storage.Verify(x => x.UpdateStatus(ExistingTask, Status.Pending));
         }
 
-        private OutputMessage[] Run(string task)
+        private IList<OutputMessage> Run(string task)
         {
             var command = _factory.Identify($"switch {task}");
 

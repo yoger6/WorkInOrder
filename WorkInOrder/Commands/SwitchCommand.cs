@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace WorkInOrder.Commands
@@ -14,7 +15,7 @@ namespace WorkInOrder.Commands
             _message = message;
         }
 
-        public OutputMessage[] Run()
+        public IList<OutputMessage> Run()
         {
             var task = _storage.GetAll().SingleOrDefault(x => x.Name == _message);
 

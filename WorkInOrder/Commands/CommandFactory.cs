@@ -29,7 +29,7 @@ namespace WorkInOrder.Commands
                 case "activate":
                     return new ActivateCommand(_storage, message);
                 case "skip":
-                    return new SkipCommand(_storage);
+                    return new SkipCommand(_board);
                 case "done":
                     return new DoneCommand(_storage);
                 case "switch":

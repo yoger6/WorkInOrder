@@ -5,6 +5,6 @@
         ITask GetActiveTask();
         ITask[] ListTasks();
         void Add(string content);
-        void Skip();
+        (string Skipped, string Activated) Skip();
     }
 }

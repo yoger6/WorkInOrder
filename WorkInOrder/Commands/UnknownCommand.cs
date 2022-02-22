@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace WorkInOrder.Commands
 {
     internal class UnknownCommand : ICommand
@@ -9,7 +11,7 @@ namespace WorkInOrder.Commands
             _input = input;
         }
 
-        public OutputMessage[] Run()
+        public IList<OutputMessage> Run()
         {
             return new[] { new OutputMessage($"Unknown command: {_input}", Format.Negative), };
         }

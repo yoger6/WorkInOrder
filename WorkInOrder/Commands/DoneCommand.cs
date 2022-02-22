@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace WorkInOrder.Commands
@@ -11,7 +12,7 @@ namespace WorkInOrder.Commands
             _storage = storage;
         }
 
-        public OutputMessage[] Run()
+        public IList<OutputMessage> Run()
         {
             var tasks = _storage.GetAll();
             var currentTask = tasks.SingleOrDefault(x => x.Status == Status.Current);

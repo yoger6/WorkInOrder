@@ -47,7 +47,12 @@ namespace WorkInOrder.BusinessLogic
             }
         }
 
-        public void Skip()
+        /// <summary>
+        /// Skips current task, activating next one if there is one in the future.
+        /// </summary>
+        /// <exception cref="TaskNotFoundException">When there's no active task</exception>
+        /// <returns></returns>
+        public (string Skipped, string Activated) Skip()
         {
             var activeTask = GetActiveTask();
             if (activeTask == null)
@@ -62,6 +67,8 @@ namespace WorkInOrder.BusinessLogic
             {
                 nextTask.Activate();
             }
+
+            return (activeTask.Name, nextTask?.Name);
         }
     }
 }

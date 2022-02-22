@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using WorkInOrder.BusinessLogic;
 
 namespace WorkInOrder.Commands
@@ -13,7 +14,7 @@ namespace WorkInOrder.Commands
             _board = board;
         }
 
-        public OutputMessage[] Run()
+        public IList<OutputMessage> Run()
         {
             try
             {

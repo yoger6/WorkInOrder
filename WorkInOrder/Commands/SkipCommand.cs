@@ -1,38 +1,35 @@
-using System.Linq;
+using System.Collections.Generic;
+using WorkInOrder.BusinessLogic;
 
 namespace WorkInOrder.Commands
 {
     internal class SkipCommand : ICommand
     {
-        private readonly ITaskStorage _storage;
+        private readonly ITaskBoard _board;
 
-        public SkipCommand(ITaskStorage storage)
+        public SkipCommand(ITaskBoard board)
         {
-            _storage = storage;
+            _board = board;
         }
 
-        public OutputMessage[] Run()
+        public IList<OutputMessage> Run()
         {
-            var tasks = _storage.GetAll().OrderBy(x=>x.CreatedOn).ToArray();
-            var task = tasks.SingleOrDefault(x => x.Status == Status.Current);
-
-            if (task == null)
+            try
             {
-                return OutputMessage.Negative("There's not active task to skip.");
+                var result = _board.Skip();
+                var outcome = new List<OutputMessage>();
+                outcome.AddRange(OutputMessage.Neutral($"{result.Skipped} skipped"));
+                if (!string.IsNullOrWhiteSpace(result.Activated))
+                {
+                    outcome.AddRange(OutputMessage.Neutral($"{result.Activated} is now active"));
+                }
+
+                return outcome;
             }
-
-            _storage.UpdateStatus(task.Name, Status.Skipped);
-
-            var nextTask = tasks.FirstOrDefault(x => x.CreatedOn > task.CreatedOn);
-            var outcome = OutputMessage.Neutral($"{task.Name} skipped");
-            if (nextTask != null)
+            catch (TaskNotFoundException)
             {
-                var command = new ActivateCommand(_storage, nextTask.Name);
-                var activationResult = command.Run();
-                return outcome.Concat(activationResult).ToArray();
+                return OutputMessage.Negative("There's no active task to skip");
             }
-
-            return outcome;
         }
     }
 }

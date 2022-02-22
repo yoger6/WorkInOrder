@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace WorkInOrder.Commands
@@ -13,7 +14,7 @@ namespace WorkInOrder.Commands
             _taskName = taskName;
         }
 
-        public OutputMessage[] Run()
+        public IList<OutputMessage> Run()
         {
             var tasks = _storage.GetAll();
             var taskToActivate = tasks.SingleOrDefault(x => x.Name == _taskName);
