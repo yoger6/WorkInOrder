@@ -12,11 +12,6 @@ namespace WorkInOrder.BusinessLogic
             _taskStorage = taskStorage;
         }
 
-        public ITask GetActiveTask()
-        {
-            return _taskStorage.Find(Status.Current);
-        }
-
         public ITask[] ListTasks()
         {
             return _taskStorage.GetAll()
@@ -29,21 +24,21 @@ namespace WorkInOrder.BusinessLogic
         /// </summary>
         /// <exception cref="MissingContentException">Task needs content to exist</exception>
         /// <exception cref="TaskAlreadyExistsException">Task content must be unique</exception>
-        /// <param name="content">What is the task about</param>
-        public void Add(string content)
+        /// <param name="name">What is the task about</param>
+        public void Add(string name)
         {
-            if (string.IsNullOrWhiteSpace(content))
+            if (string.IsNullOrWhiteSpace(name))
             {
                 throw new MissingContentException();
             }
 
             if (GetActiveTask() == null)
             {
-                _taskStorage.Create(DateTime.Now, content, Status.Current);
+                _taskStorage.Create(DateTime.Now, name, Status.Current);
             }
             else
             {
-                _taskStorage.Create(DateTime.Now, content, Status.Pending);
+                _taskStorage.Create(DateTime.Now, name, Status.Pending);
             }
         }
 
@@ -122,6 +117,11 @@ namespace WorkInOrder.BusinessLogic
             }
 
             task.Activate();
+        }
+
+        private ITask GetActiveTask()
+        {
+            return _taskStorage.Find(Status.Current);
         }
     }
 }

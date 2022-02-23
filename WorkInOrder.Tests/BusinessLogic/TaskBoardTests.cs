@@ -15,32 +15,7 @@ namespace WorkInOrder.Tests.BusinessLogic
             _storage = new Mock<ITaskStorage>();
             _board = new TaskBoard(_storage.Object);
         }
-
-        [Fact]
-        public void CanGetActiveTask()
-        {
-            // Arrange
-            var expected = TestTask.Active();
-            _storage.Setup(x => x.Find(Status.Current)).Returns(expected);
-
-            // Act
-            var actual = _board.GetActiveTask();
-
-            // Assert
-            
-            Assert.Same(expected, actual);
-        }
-
-        [Fact]
-        public void NoActiveTaskFound()
-        {
-            // Act
-            var task = _board.GetActiveTask();
-
-            // Assert
-            Assert.Null(task);
-        }
-
+        
         [Fact]
         public void ListsAllTheTasks()
         {

@@ -2,9 +2,8 @@
 {
     public interface ITaskBoard
     {
-        ITask GetActiveTask();
         ITask[] ListTasks();
-        void Add(string content);
+        void Add(string name);
         (string Skipped, string Activated) Skip();
         (string Completed, string Activated) Done();
         void Activate(string name);
