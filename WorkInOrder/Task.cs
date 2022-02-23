@@ -2,7 +2,7 @@ using System;
 
 namespace WorkInOrder
 {
-    public class Task : ITask
+    public class Task : ITask, IEquatable<Task>
     {
         private readonly ITaskStorage _storage;
 
@@ -40,6 +40,26 @@ namespace WorkInOrder
         {
             _storage.UpdateStatus(Name, Status.Done);
             _storage.UpdateCompletionDate(Name, DateTime.Now);
+        }
+
+        public bool Equals(Task other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Name == other.Name;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Task) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Name != null ? Name.GetHashCode() : 0);
         }
     }
 }

@@ -75,6 +75,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnotherTaskAlreadyActiveException.cs" />
     <Compile Include="BusinessLogic\ITaskBoard.cs" />
     <Compile Include="BusinessLogic\TaskBoard.cs" />
     <Compile Include="Commands\ActivateCommand.cs" />

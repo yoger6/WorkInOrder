@@ -222,11 +222,26 @@ namespace WorkInOrder.Tests.BusinessLogic
         [Fact]
         public void CannotActivateTaskThatIsAlreadyActive()
         {
+            // Arrange
             var task = TestTask.Active();
             _storage.Setup(x => x.Find(task.Name)).Returns(task);
+            _storage.Setup(x => x.Find(Status.Current)).Returns(task);
 
             // Assert
             Assert.Throws<TaskAlreadyActiveException>(() => _board.Activate(task.Name));
+        }
+
+        [Fact]
+        public void CannotActivateTaskWhenAnotherOneIsActive()
+        {
+            // Arrange
+            var task = TestTask.Pending();
+            var activeTask = TestTask.Active();
+            _storage.Setup(x => x.Find(task.Name)).Returns(task);
+            _storage.Setup(x => x.Find(Status.Current)).Returns(activeTask);
+
+            // Assert
+            Assert.Throws<AnotherTaskAlreadyActiveException>(() => _board.Activate(task.Name));
         }
     }
 }

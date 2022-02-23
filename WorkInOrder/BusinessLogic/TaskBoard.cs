@@ -105,15 +105,20 @@ namespace WorkInOrder.BusinessLogic
         public void Activate(string name)
         {
             var task = _taskStorage.Find(name);
+            var activeTask = _taskStorage.Find(Status.Current);
 
             if (task == null)
             {
                 throw new TaskNotFoundException();
             }
 
-            if (task.Status == Status.Current)
+            if (task.Equals(activeTask))
             {
                 throw new TaskAlreadyActiveException();
+            }
+            else if (activeTask != null)
+            {
+                throw new AnotherTaskAlreadyActiveException(activeTask.Name);
             }
 
             task.Activate();

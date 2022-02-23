@@ -27,7 +27,11 @@ namespace WorkInOrder.Commands
             }
             catch (TaskAlreadyActiveException)
             {
-                return OutputMessage.Neutral($"{_taskName} is already active");
+                return OutputMessage.Negative($"{_taskName} is already active");
+            }
+            catch (AnotherTaskAlreadyActiveException e)
+            {
+                return OutputMessage.Negative($"Cannot activate {_taskName} as there's another active task: {e.TaskName}. To switch active task use the switch command.");
             }
         }
     }
