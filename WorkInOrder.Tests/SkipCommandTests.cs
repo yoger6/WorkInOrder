@@ -20,7 +20,7 @@ namespace WorkInOrder.Tests
         [Fact]
         public void CannotSkipIfThereIsNoCurrentTask()
         {
-            _board.Setup(x => x.Skip()).Throws<TaskNotFoundException>();
+            _board.Setup(x => x.Skip()).Throws<NoActiveTaskException>();
 
             var result = Run();
 

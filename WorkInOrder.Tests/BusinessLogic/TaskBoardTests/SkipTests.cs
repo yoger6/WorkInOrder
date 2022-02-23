@@ -19,7 +19,7 @@ namespace WorkInOrder.Tests.BusinessLogic.TaskBoardTests
         public void CannotSkipIfNoTaskIsActive()
         {
             // Assert
-            Assert.Throws<TaskNotFoundException>(() => _board.Skip());
+            Assert.Throws<NoActiveTaskException>(() => _board.Skip());
         }
 
         [Fact]

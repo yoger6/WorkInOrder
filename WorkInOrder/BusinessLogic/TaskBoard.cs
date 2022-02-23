@@ -45,14 +45,14 @@ namespace WorkInOrder.BusinessLogic
         /// <summary>
         /// Skips current task, activating next one if there is one in the future.
         /// </summary>
-        /// <exception cref="TaskNotFoundException">When there's no active task</exception>
+        /// <exception cref="NoActiveTaskException">When there's no active task</exception>
         /// <returns>Name of skipped task and optionally activated one</returns>
         public (string Skipped, string Activated) Skip()
         {
             var activeTask = GetActiveTask();
             if (activeTask == null)
             {
-                throw new TaskNotFoundException();
+                throw new NoActiveTaskException();
             }
 
             var nextTask = _taskStorage.FindFirstAvailableSince(activeTask.CreatedOn);

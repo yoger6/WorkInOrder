@@ -26,7 +26,7 @@ namespace WorkInOrder.Commands
 
                 return outcome;
             }
-            catch (TaskNotFoundException)
+            catch (NoActiveTaskException)
             {
                 return OutputMessage.Negative("There's no active task to skip");
             }
