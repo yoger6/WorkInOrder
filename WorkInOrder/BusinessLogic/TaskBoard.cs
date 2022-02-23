@@ -119,6 +119,11 @@ namespace WorkInOrder.BusinessLogic
             task.Activate();
         }
 
+        public (string Activated, string Deactivated) Switch(string name)
+        {
+            throw new NotImplementedException();
+        }
+
         private ITask GetActiveTask()
         {
             return _taskStorage.Find(Status.Current);

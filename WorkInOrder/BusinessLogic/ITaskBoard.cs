@@ -7,5 +7,6 @@
         (string Skipped, string Activated) Skip();
         (string Completed, string Activated) Done();
         void Activate(string name);
+        (string Activated, string Deactivated) Switch(string name);
     }
 }

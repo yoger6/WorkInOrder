@@ -102,7 +102,11 @@
   <ItemGroup>
     <Compile Include="ActivateCommandTests.cs" />
     <Compile Include="AddCommandTests.cs" />
-    <Compile Include="BusinessLogic\TaskBoardTests.cs" />
+    <Compile Include="BusinessLogic\TaskBoardTests\ActivateTests.cs" />
+    <Compile Include="BusinessLogic\TaskBoardTests\AddTests.cs" />
+    <Compile Include="BusinessLogic\TaskBoardTests\DoneTests.cs" />
+    <Compile Include="BusinessLogic\TaskBoardTests\ListTasksTests.cs" />
+    <Compile Include="BusinessLogic\TaskBoardTests\SkipTests.cs" />
     <Compile Include="BusinessLogic\TaskTests.cs" />
     <Compile Include="BusinessLogic\TestTask.cs" />
     <Compile Include="DoneCommandTests.cs" />
