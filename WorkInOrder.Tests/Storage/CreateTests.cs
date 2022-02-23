@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace WorkInOrder.Tests.Storage
 {
+    [Collection("Storage sequence")]
     public class CreateTests : IDisposable
     {
         private readonly TaskStorage _storage = new TestTaskStorage();

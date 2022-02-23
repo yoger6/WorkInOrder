@@ -56,14 +56,7 @@ namespace WorkInOrder
                 throw new TaskNotFoundException(name);
             }
 
-            if (status == Status.Done)
-            {
-                RunNonQuery("UPDATE Tasks SET Status = @Status, CompletedOn = DATETIME('now') WHERE Content = @Content", new SqliteParameter("@Status", status), new SqliteParameter("@Content", name));
-            }
-            else
-            {
-                RunNonQuery("UPDATE Tasks SET Status = @Status WHERE Content = @Content", new SqliteParameter("@Status", status), new SqliteParameter("@Content", name));
-            }
+            RunNonQuery("UPDATE Tasks SET Status = @Status WHERE Content = @Content", new SqliteParameter("@Status", status), new SqliteParameter("@Content", name));
 
             bool DoesItExist()
             {

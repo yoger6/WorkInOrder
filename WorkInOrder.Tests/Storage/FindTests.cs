@@ -4,6 +4,7 @@ using Xunit;
 
 namespace WorkInOrder.Tests.Storage
 {
+    [Collection("Storage sequence")]
     public class FindTests : IDisposable
     {
         private readonly TaskStorage _storage = new TestTaskStorage();

@@ -4,10 +4,10 @@ using Xunit;
 
 namespace WorkInOrder.Tests.Storage
 {
+    [Collection("Storage sequence")]
     public class UpdateStatusTests : IDisposable
     {
         private readonly TaskStorage _storage = new TestTaskStorage();
-
 
         [Fact]
         public void UpdatesStatusOfGivenTask()
@@ -20,21 +20,7 @@ namespace WorkInOrder.Tests.Storage
             var task = _storage.GetAll().Single();
             Assert.Equal(Status.Done, task.Status);
         }
-
-        [Fact]
-        public void AssignsCompletionDateToCompletedTasks()
-        {
-            const string name = "Test";
-            _storage.Create(DateTime.Now, name);
-
-            _storage.UpdateStatus(name, Status.Done);
-
-            var task = _storage.GetAll().Single();
-            Assert.NotNull(task.CompletedOn);
-
-        }
-
-
+        
         [Fact]
         public void ThrowsWhenTaskDoesNotExist()
         {
