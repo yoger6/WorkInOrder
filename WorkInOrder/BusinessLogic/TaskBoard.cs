@@ -119,9 +119,37 @@ namespace WorkInOrder.BusinessLogic
             task.Activate();
         }
 
+        /// <summary>
+        /// Switches current active task with another.
+        /// </summary>
+        /// <exception cref="TaskNotFoundException">Desired task cannot be found</exception>
+        /// <exception cref="NoActiveTaskException">No task to deactivate, should rather use activate method</exception>
+        /// <exception cref="TaskAlreadyActiveException">Can't switch if the task is already active</exception>
+        /// <param name="name">Task to activate</param>
+        /// <returns>Names of activated and deactivated tasks</returns>
         public (string Activated, string Deactivated) Switch(string name)
         {
-            throw new NotImplementedException();
+            var desiredTask = _taskStorage.Find(name);
+            if (desiredTask == null)
+            {
+                throw new TaskNotFoundException();
+            }
+
+            var activeTask = GetActiveTask();
+            if (activeTask == null)
+            {
+                throw new NoActiveTaskException();
+            }
+
+            if (desiredTask.Equals(activeTask))
+            {
+                throw new TaskAlreadyActiveException();
+            }
+
+            activeTask.Deactivate();
+            desiredTask.Activate();
+
+            return (desiredTask.Name, activeTask.Name);
         }
 
         private ITask GetActiveTask()

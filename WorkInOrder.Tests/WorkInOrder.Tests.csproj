@@ -107,6 +107,7 @@
     <Compile Include="BusinessLogic\TaskBoardTests\DoneTests.cs" />
     <Compile Include="BusinessLogic\TaskBoardTests\ListTasksTests.cs" />
     <Compile Include="BusinessLogic\TaskBoardTests\SkipTests.cs" />
+    <Compile Include="BusinessLogic\TaskBoardTests\SwitchTests.cs" />
     <Compile Include="BusinessLogic\TaskTests.cs" />
     <Compile Include="BusinessLogic\TestTask.cs" />
     <Compile Include="DoneCommandTests.cs" />
