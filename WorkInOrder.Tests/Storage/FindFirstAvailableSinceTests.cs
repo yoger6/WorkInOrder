@@ -66,10 +66,24 @@ namespace WorkInOrder.Tests.Storage
             Assert.Null(task);
         }
 
+        [Fact]
+        public void HasNoProblemPickingFirstOfTwoTasks()
+        {
+            // Arrange
+            var date = DateTime.Now;
+            _storage.Create(date, Guid.NewGuid().ToString());
+            _storage.Create(date, Guid.NewGuid().ToString());
+
+            // Act
+            var task = _storage.FindFirstAvailableSince(date);
+
+            // Assert
+            Assert.NotNull(task);
+        }
+
         public void Dispose()
         {
             _storage.Clear();
         }
-
     }
 }

@@ -78,7 +78,7 @@ namespace WorkInOrder
         public ITask FindFirstAvailableSince(DateTime since)
         {
             var results = RunReader(
-                "SELECT Content, Status, CreatedOn, CompletedOn FROM Tasks WHERE Status IN (@PendingStatus, @SkippedStatus) AND CreatedOn >= @Since ORDER BY CreatedOn;",
+                "SELECT Content, Status, CreatedOn, CompletedOn FROM Tasks WHERE Status IN (@PendingStatus, @SkippedStatus) AND CreatedOn >= @Since ORDER BY CreatedOn LIMIT 1;",
                 Read,
                 new SqliteParameter("@PendingStatus", Status.Pending),
                 new SqliteParameter("@SkippedStatus", Status.Skipped),
