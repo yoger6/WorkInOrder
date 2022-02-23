@@ -46,6 +46,19 @@ namespace WorkInOrder.Tests.BusinessLogic
             // Assert
             _storage.Verify(x=>x.UpdateStatus(task.Name, Status.Done));
             _storage.Verify(x=>x.UpdateCompletionDate(task.Name, It.IsAny<DateTime>()));
+        }
+
+        [Fact]
+        public void DeactivatesItself()
+        {
+            // Arrange
+            var task = TestTask.Active(_storage.Object);
+
+            // Act
+            task.Deactivate();
+
+            // Assert
+            _storage.Verify(x => x.UpdateStatus(task.Name, Status.Pending));
 
         }
     }

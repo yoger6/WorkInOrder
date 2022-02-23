@@ -42,6 +42,11 @@ namespace WorkInOrder
             _storage.UpdateCompletionDate(Name, DateTime.Now);
         }
 
+        public void Deactivate()
+        {
+            _storage.UpdateStatus(Name, Status.Pending);
+        }
+
         public bool Equals(Task other)
         {
             if (ReferenceEquals(null, other)) return false;
