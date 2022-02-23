@@ -100,8 +100,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActivateCommandTests.cs" />
-    <Compile Include="AddCommandTests.cs" />
+    <Compile Include="Commands\ActivateCommandTests.cs" />
+    <Compile Include="Commands\AddCommandTests.cs" />
     <Compile Include="BusinessLogic\TaskBoardTests\ActivateTests.cs" />
     <Compile Include="BusinessLogic\TaskBoardTests\AddTests.cs" />
     <Compile Include="BusinessLogic\TaskBoardTests\DoneTests.cs" />
@@ -110,13 +110,13 @@
     <Compile Include="BusinessLogic\TaskBoardTests\SwitchTests.cs" />
     <Compile Include="BusinessLogic\TaskTests.cs" />
     <Compile Include="BusinessLogic\TestTask.cs" />
-    <Compile Include="DoneCommandTests.cs" />
-    <Compile Include="ListCommandTests.cs" />
-    <Compile Include="NullCommandTests.cs" />
+    <Compile Include="Commands\DoneCommandTests.cs" />
+    <Compile Include="Commands\ListCommandTests.cs" />
+    <Compile Include="Commands\NullCommandTests.cs" />
     <Compile Include="OutputAssertions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SkipCommandTests.cs" />
-    <Compile Include="SwitchCommandTests.cs" />
+    <Compile Include="Commands\SkipCommandTests.cs" />
+    <Compile Include="Commands\SwitchCommandTests.cs" />
     <Compile Include="TaskStorageTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,7 @@ using WorkInOrder.BusinessLogic;
 using WorkInOrder.Commands;
 using Xunit;
 
-namespace WorkInOrder.Tests
+namespace WorkInOrder.Tests.Commands
 {
     public class ListCommandTests
     {
