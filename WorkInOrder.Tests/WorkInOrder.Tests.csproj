@@ -117,7 +117,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\SkipCommandTests.cs" />
     <Compile Include="Commands\SwitchCommandTests.cs" />
-    <Compile Include="TaskStorageTests.cs" />
+    <Compile Include="Storage\CreateTests.cs" />
+    <Compile Include="Storage\FindFirstAvailableSinceTests.cs" />
+    <Compile Include="Storage\FindTests.cs" />
+    <Compile Include="Storage\GetAllTests.cs" />
+    <Compile Include="Storage\TestTaskStorage.cs" />
+    <Compile Include="Storage\UpdateCompletionDateTests.cs" />
+    <Compile Include="Storage\UpdateStatusTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
