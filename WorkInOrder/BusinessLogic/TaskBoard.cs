@@ -95,6 +95,13 @@ namespace WorkInOrder.BusinessLogic
             return (activeTask.Name, nextTask?.Name);
         }
 
+        /// <summary>
+        /// Activates given task, this can be used only when no other task is active.
+        /// For that use Switch method.
+        /// </summary>
+        /// <exception cref="TaskNotFoundException">No task with given name</exception>
+        /// <exception cref="TaskAlreadyActiveException">Task is already active</exception>
+        /// <param name="name">Name of task to activate</param>
         public void Activate(string name)
         {
             var task = _taskStorage.Find(name);
@@ -102,6 +109,11 @@ namespace WorkInOrder.BusinessLogic
             if (task == null)
             {
                 throw new TaskNotFoundException();
+            }
+
+            if (task.Status == Status.Current)
+            {
+                throw new TaskAlreadyActiveException();
             }
 
             task.Activate();

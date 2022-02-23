@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Moq;
 using WorkInOrder.BusinessLogic;
@@ -11,13 +10,11 @@ namespace WorkInOrder.Tests
     {
         private const string PendingTask = "task";
         private readonly CommandFactory _factory;
-        private readonly Mock<ITaskStorage> _storage = new Mock<ITaskStorage>();
         private readonly Mock<ITaskBoard> _board = new Mock<ITaskBoard>();
 
         public ActivateCommandTests()
         {
-            _factory = new CommandFactory(_storage.Object, _board.Object);
-            _storage.Setup(x => x.GetAll()).Returns(new[] {new Task(DateTime.Now, PendingTask, Status.Pending)});
+            _factory = new CommandFactory(Mock.Of<ITaskStorage>(), _board.Object);
         }
 
         [Fact]
@@ -25,38 +22,27 @@ namespace WorkInOrder.Tests
         {
             var command = _factory.Identify($"activate {PendingTask}");
 
-            command.Run();
+            var result = command.Run();
 
-            _storage.Verify(x=>x.UpdateStatus(PendingTask, Status.Current));
-        }
-
-        [Fact]
-        public void SkipsTaskThatWasPreviouslySetAsCurrent()
-        {
-            const string previousTask = "boringTask";
-            _storage.Setup(x => x.GetAll()).Returns(new[] {new Task(DateTime.Now, previousTask, Status.Current), new Task(DateTime.Now, PendingTask, Status.Pending)});
-            var command = _factory.Identify($"activate {PendingTask}");
-
-            command.Run();
-
-            _storage.Verify(x=>x.UpdateStatus(previousTask, Status.Skipped));
+            _board.Verify(x => x.Activate(PendingTask));
+            result.Single().Expect($"{PendingTask} is now active", Format.Neutral);
         }
 
         [Fact]
         public void FailsToActivateTaskThatDoesNotExist()
         {
-            const string taskName = "stuff";
-            var command = _factory.Identify($"activate {taskName}");
+            _board.Setup(x => x.Activate(PendingTask)).Throws<TaskNotFoundException>();
+            var command = _factory.Identify($"activate {PendingTask}");
 
             var result = command.Run();
 
-            result.Single().Expect($"{taskName} not found", Format.Negative);
+            result.Single().Expect($"{PendingTask} not found", Format.Negative);
         }
 
         [Fact]
         public void DoesNotUpdateTheTaskThatIsAlreadyActive()
         {
-            _storage.Setup(x => x.GetAll()).Returns(new[] {new Task(DateTime.Now, PendingTask, Status.Current)});
+            _board.Setup(x => x.Activate(PendingTask)).Throws<TaskAlreadyActiveException>();
             var command = _factory.Identify($"activate {PendingTask}");
 
             var result = command.Run();

@@ -27,7 +27,7 @@ namespace WorkInOrder.Commands
                 case "list":
                     return new ListCommand(_board, message);
                 case "activate":
-                    return new ActivateCommand(_storage, message);
+                    return new ActivateCommand(_board, message);
                 case "skip":
                     return new SkipCommand(_board);
                 case "done":

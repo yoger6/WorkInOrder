@@ -1,42 +1,34 @@
 using System.Collections.Generic;
-using System.Linq;
+using WorkInOrder.BusinessLogic;
 
 namespace WorkInOrder.Commands
 {
     internal class ActivateCommand : ICommand
     {
-        private readonly ITaskStorage _storage;
+        private readonly ITaskBoard _board;
         private readonly string _taskName;
 
-        public ActivateCommand(ITaskStorage storage, string taskName)
+        public ActivateCommand(ITaskBoard board, string taskName)
         {
-            _storage = storage;
+            _board = board;
             _taskName = taskName;
         }
 
         public IList<OutputMessage> Run()
         {
-            var tasks = _storage.GetAll();
-            var taskToActivate = tasks.SingleOrDefault(x => x.Name == _taskName);
-            if (taskToActivate == null)
+            try
+            {
+                _board.Activate(_taskName);
+                return OutputMessage.Neutral($"{_taskName} is now active");
+            }
+            catch (TaskNotFoundException)
             {
                 return OutputMessage.Negative($"{_taskName} not found");
             }
-
-            if (taskToActivate.Status == Status.Current)
+            catch (TaskAlreadyActiveException)
             {
                 return OutputMessage.Neutral($"{_taskName} is already active");
             }
-
-            var activeTask = tasks.FirstOrDefault(x => x.Status == Status.Current);
-            if (activeTask != null)
-            {
-                _storage.UpdateStatus(activeTask.Name, Status.Skipped);
-            }
-
-            _storage.UpdateStatus(_taskName, Status.Current);
-
-            return OutputMessage.Neutral($"{_taskName} is now active");
         }
     }
 }

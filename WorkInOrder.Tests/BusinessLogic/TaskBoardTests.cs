@@ -218,5 +218,15 @@ namespace WorkInOrder.Tests.BusinessLogic
             // Assert
             Assert.Throws<TaskNotFoundException>(() => _board.Activate("test"));
         }
+
+        [Fact]
+        public void CannotActivateTaskThatIsAlreadyActive()
+        {
+            var task = TestTask.Active();
+            _storage.Setup(x => x.Find(task.Name)).Returns(task);
+
+            // Assert
+            Assert.Throws<TaskAlreadyActiveException>(() => _board.Activate(task.Name));
+        }
     }
 }
