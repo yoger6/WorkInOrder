@@ -117,17 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AnotherTaskAlreadyActive" xml:space="preserve">
+    <value>Cannot activate {0} as there's another active task: {1}. To switch active task use the switch command.</value>
+  </data>
   <data name="MissingDescription" xml:space="preserve">
     <value>Missing task description</value>
+  </data>
+  <data name="MoreThanOneTaskFound" xml:space="preserve">
+    <value>More than one task found when looking for {0}, you can pick one from list below using its number or more specific name:</value>
   </data>
   <data name="NothingToDisplay" xml:space="preserve">
     <value>Nothing to display</value>
   </data>
+  <data name="TaskActivated" xml:space="preserve">
+    <value>{0} is now active</value>
+  </data>
   <data name="TaskAdded" xml:space="preserve">
     <value>{0} has been added to current todo list</value>
   </data>
+  <data name="TaskAlreadyActive" xml:space="preserve">
+    <value>{0} is already active</value>
+  </data>
   <data name="TaskAlreadyExists" xml:space="preserve">
     <value>Task {0} already exists</value>
+  </data>
+  <data name="TaskNotFound" xml:space="preserve">
+    <value>{0} not found</value>
   </data>
   <data name="UnknownCommand" xml:space="preserve">
     <value>Unknown command: {0}</value>

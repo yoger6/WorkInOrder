@@ -27,27 +27,27 @@ namespace WorkInOrder.Commands
                     var narrowedDownResult = _session.SearchResults.FirstOrDefault(x => x.Key.Equals(_taskName, StringComparison.InvariantCultureIgnoreCase));
                     _session.SearchResults.Clear();
                     _board.Activate(narrowedDownResult.Value);
-                    return OutputMessage.Neutral($"{_taskName} is now active");
+                    return OutputMessage.NeutralFormat(Messages.TaskActivated, _taskName);
                 }
 
                 _board.Activate(_taskName);
-                return OutputMessage.Neutral($"{_taskName} is now active");
+                return OutputMessage.NeutralFormat(Messages.TaskActivated, _taskName);
             }
             catch (TaskNotFoundException)
             {
-                return OutputMessage.Negative($"{_taskName} not found");
+                return OutputMessage.NegativeFormat(Messages.TaskNotFound, _taskName);
             }
             catch (TaskAlreadyActiveException)
             {
-                return OutputMessage.Negative($"{_taskName} is already active");
+                return OutputMessage.NegativeFormat(Messages.TaskAlreadyActive, _taskName);
             }
             catch (AnotherTaskAlreadyActiveException e)
             {
-                return OutputMessage.Negative($"Cannot activate {_taskName} as there's another active task: {e.TaskName}. To switch active task use the switch command.");
+                return OutputMessage.NegativeFormat(Messages.AnotherTaskAlreadyActive, _taskName, e.TaskName);
             }
             catch (NonUniqueNameException e)
             {
-                var information = OutputMessage.Neutral($"More than one task found when looking for {_taskName}, you can pick one from list below using its number or more specific name:");
+                var information = OutputMessage.NeutralFormat(Messages.MoreThanOneTaskFound, _taskName);
                 for (var i = 0; i < e.TasksFound.Length; i++)
                 {
                     _session.SearchResults.Add($"{i + 1}", e.TasksFound[i]);

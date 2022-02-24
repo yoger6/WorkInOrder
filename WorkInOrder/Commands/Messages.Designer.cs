@@ -61,11 +61,29 @@ namespace WorkInOrder.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot activate {0} as there&apos;s another active task: {1}. To switch active task use the switch command..
+        /// </summary>
+        internal static string AnotherTaskAlreadyActive {
+            get {
+                return ResourceManager.GetString("AnotherTaskAlreadyActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing task description.
         /// </summary>
         internal static string MissingDescription {
             get {
                 return ResourceManager.GetString("MissingDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to More than one task found when looking for {0}, you can pick one from list below using its number or more specific name:.
+        /// </summary>
+        internal static string MoreThanOneTaskFound {
+            get {
+                return ResourceManager.GetString("MoreThanOneTaskFound", resourceCulture);
             }
         }
         
@@ -79,6 +97,15 @@ namespace WorkInOrder.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is now active.
+        /// </summary>
+        internal static string TaskActivated {
+            get {
+                return ResourceManager.GetString("TaskActivated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} has been added to current todo list.
         /// </summary>
         internal static string TaskAdded {
@@ -88,11 +115,29 @@ namespace WorkInOrder.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is already active.
+        /// </summary>
+        internal static string TaskAlreadyActive {
+            get {
+                return ResourceManager.GetString("TaskAlreadyActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Task {0} already exists.
         /// </summary>
         internal static string TaskAlreadyExists {
             get {
                 return ResourceManager.GetString("TaskAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} not found.
+        /// </summary>
+        internal static string TaskNotFound {
+            get {
+                return ResourceManager.GetString("TaskNotFound", resourceCulture);
             }
         }
         

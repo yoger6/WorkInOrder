@@ -24,7 +24,7 @@ namespace WorkInOrder.Tests.Commands
             var result = ActivateTheTask();
 
             _board.Verify(x => x.Activate(PendingTask));
-            result.Expect($"{PendingTask} is now active", Format.Neutral);
+            result.Expect(string.Format(Messages.TaskActivated, PendingTask), Format.Neutral);
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace WorkInOrder.Tests.Commands
 
             var result = ActivateTheTask();
 
-            result.Expect($"{PendingTask} not found", Format.Negative);
+            result.Expect(string.Format(Messages.TaskNotFound, PendingTask), Format.Negative);
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace WorkInOrder.Tests.Commands
 
             var result = ActivateTheTask();
 
-            result.Expect($"{PendingTask} is already active", Format.Negative);
+            result.Expect(string.Format(Messages.TaskAlreadyActive, PendingTask), Format.Negative);
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace WorkInOrder.Tests.Commands
             var result = ActivateTheTask();
 
             // Assert
-            result.Expect($"Cannot activate {PendingTask} as there's another active task: {activeTask}. To switch active task use the switch command.", Format.Negative);
+            result.Expect(string.Format(Messages.AnotherTaskAlreadyActive, PendingTask,activeTask), Format.Negative);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace WorkInOrder.Tests.Commands
             var results = command.Run();
 
             // Assert
-            results[0].Expect($"More than one task found when looking for {PendingTask}, you can pick one from list below using its number or more specific name:", Format.Neutral);
+            results[0].Expect(string.Format(Messages.MoreThanOneTaskFound, PendingTask), Format.Neutral);
             results[1].Expect($"1. {expectedTasks[0]}", Format.Neutral);
             results[2].Expect($"2. {expectedTasks[1]}", Format.Neutral);
         }
