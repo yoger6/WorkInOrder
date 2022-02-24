@@ -126,6 +126,9 @@
   <data name="MoreThanOneTaskFound" xml:space="preserve">
     <value>More than one task found when looking for {0}, you can pick one from list below using its number or more specific name:</value>
   </data>
+  <data name="NoTaskToSkip" xml:space="preserve">
+    <value>There's no active task to skip</value>
+  </data>
   <data name="NothingToDisplay" xml:space="preserve">
     <value>Nothing to display</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="TaskNotFound" xml:space="preserve">
     <value>{0} not found</value>
+  </data>
+  <data name="TaskSkipped" xml:space="preserve">
+    <value>{0} skipped</value>
   </data>
   <data name="UnknownCommand" xml:space="preserve">
     <value>Unknown command: {0}</value>

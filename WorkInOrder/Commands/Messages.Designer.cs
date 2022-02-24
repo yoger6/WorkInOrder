@@ -88,6 +88,15 @@ namespace WorkInOrder.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There&apos;s no active task to skip.
+        /// </summary>
+        internal static string NoTaskToSkip {
+            get {
+                return ResourceManager.GetString("NoTaskToSkip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nothing to display.
         /// </summary>
         internal static string NothingToDisplay {
@@ -138,6 +147,15 @@ namespace WorkInOrder.Commands {
         internal static string TaskNotFound {
             get {
                 return ResourceManager.GetString("TaskNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} skipped.
+        /// </summary>
+        internal static string TaskSkipped {
+            get {
+                return ResourceManager.GetString("TaskSkipped", resourceCulture);
             }
         }
         

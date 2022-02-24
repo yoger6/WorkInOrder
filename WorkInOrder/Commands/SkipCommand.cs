@@ -18,17 +18,17 @@ namespace WorkInOrder.Commands
             {
                 var result = _board.Skip();
                 var outcome = new List<OutputMessage>();
-                outcome.AddRange(OutputMessage.Neutral($"{result.Skipped} skipped"));
+                outcome.AddRange(OutputMessage.NeutralFormat(Messages.TaskSkipped, result.Skipped));
                 if (!string.IsNullOrWhiteSpace(result.Activated))
                 {
-                    outcome.AddRange(OutputMessage.Neutral($"{result.Activated} is now active"));
+                    outcome.AddRange(OutputMessage.NeutralFormat(Messages.TaskActivated, result.Activated));
                 }
 
                 return outcome;
             }
             catch (NoActiveTaskException)
             {
-                return OutputMessage.Negative("There's no active task to skip");
+                return OutputMessage.Negative(Messages.NoTaskToSkip);
             }
         }
     }

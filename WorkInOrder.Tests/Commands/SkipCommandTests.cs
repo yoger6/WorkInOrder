@@ -24,16 +24,21 @@ namespace WorkInOrder.Tests.Commands
 
             var result = Run();
 
-            result.Single().Expect("There's no active task to skip", Format.Negative);
+            result.Single().Expect(Messages.NoTaskToSkip, Format.Negative);
         }
 
         [Fact]
-        public void MarksCurrentTaskAsSkipped()
+        public void SkipsTaskInformingAboutWhatWasSkippedAndActivated()
         {
+            const string skippedTaskName = "skipped";
+            const string activatedTaskName = "activated";
+            _board.Setup(x => x.Skip()).Returns((skippedTaskName, activatedTaskName));
             
-            Run();
+            var result = Run();
 
             _board.Verify(x => x.Skip());
+            result[0].Expect(string.Format(Messages.TaskSkipped, skippedTaskName), Format.Neutral);
+            result[1].Expect(string.Format(Messages.TaskActivated, activatedTaskName), Format.Neutral);
         }
 
         private IList<OutputMessage> Run()
