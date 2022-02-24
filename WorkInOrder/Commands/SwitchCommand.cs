@@ -1,38 +1,38 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using WorkInOrder.BusinessLogic;
 
 namespace WorkInOrder.Commands
 {
     internal class SwitchCommand : ICommand
     {
-        private readonly ITaskStorage _storage;
+        private readonly ITaskBoard _board;
         private readonly string _message;
 
-        public SwitchCommand(ITaskStorage storage, string message)
+        public SwitchCommand(ITaskBoard board, string message)
         {
-            _storage = storage;
+            _board = board;
             _message = message;
         }
 
         public IList<OutputMessage> Run()
         {
-            var task = _storage.GetAll().SingleOrDefault(x => x.Name == _message);
-
-            if (task == null)
+            try
+            {
+                _board.Switch(_message);
+                return OutputMessage.Neutral($"Switched to {_message}");
+            }
+            catch (TaskNotFoundException)
             {
                 return OutputMessage.Negative($"{_message} does not exist");
             }
-
-            var currentTask = _storage.GetAll().SingleOrDefault(x => x.Status == Status.Current);
-            if (currentTask != null)
+            catch (NoActiveTaskException)
             {
-                _storage.UpdateStatus(currentTask.Name, Status.Pending);
+                return OutputMessage.Negative($"Cannot switch to {_message} as there's no active task to switch from. Rather use Activate command.");
             }
-
-            _storage.UpdateStatus(task.Name, Status.Current);
-
-            return OutputMessage.Neutral($"Switched to {_message}");
+            catch (TaskAlreadyActiveException)
+            {
+                return OutputMessage.Neutral($"{_message} is already active");
+            }
         }
     }
 }

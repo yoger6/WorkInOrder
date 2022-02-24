@@ -4,6 +4,7 @@ using System.Linq;
 using Moq;
 using WorkInOrder.BusinessLogic;
 using WorkInOrder.Commands;
+using WorkInOrder.Tests.BusinessLogic;
 using Xunit;
 
 namespace WorkInOrder.Tests.Commands
@@ -25,23 +26,23 @@ namespace WorkInOrder.Tests.Commands
         {
             var tasks = new[]
             {
-                new Task(DateTime.Now, "Code", Status.Done, DateTime.Now),
-                new Task(DateTime.Now.AddMinutes(1), "Compile", Status.Skipped),
-                new Task(DateTime.Now.AddMinutes(2), "Test", Status.Current),
-                new Task(DateTime.Now.AddMinutes(3), "Deploy", Status.Pending),
+                TestTask.Done(DateTime.Now),
+                TestTask.Skipped(DateTime.Now.AddMinutes(1)),
+                TestTask.Active(DateTime.Now.AddMinutes(2)),
+                TestTask.Pending(DateTime.Now.AddMinutes(3)),
             };
             _board.Setup(x => x.ListTasks()).Returns(tasks);
 
             var result = Run();
 
             _board.Verify(x => x.ListTasks(), Times.Once);
-            Assert.StartsWith("+ Code", result[0].Content);
+            Assert.StartsWith($"+ {tasks[0].Name}", result[0].Content);
             Assert.Equal(Format.Positive, result[0].Format);
-            Assert.StartsWith("- Compile", result[1].Content);
+            Assert.StartsWith($"- {tasks[1].Name}", result[1].Content);
             Assert.Equal(Format.Negative, result[1].Format);
-            Assert.StartsWith("@ Test", result[2].Content);
+            Assert.StartsWith($"@ {tasks[2].Name}", result[2].Content);
             Assert.Equal(Format.Highlight, result[2].Format);
-            Assert.StartsWith("? Deploy", result[3].Content);
+            Assert.StartsWith($"? {tasks[3].Name}", result[3].Content);
             Assert.Equal(Format.Neutral, result[3].Format);
         }
         
@@ -58,15 +59,15 @@ namespace WorkInOrder.Tests.Commands
         {
             var tasks = new[]
             {
-                new Task(DateTime.Now, "First", Status.Done, DateTime.Now.AddDays(1)),
-                new Task(DateTime.Now.AddDays(1), "Second", Status.Done, DateTime.Now.AddDays(2)),
+                TestTask.Done(DateTime.Now, DateTime.Now.AddDays(1)),
+                TestTask.Done(DateTime.Now.AddDays(1), DateTime.Now.AddDays(2)),
             };
             _board.Setup(x => x.ListTasks()).Returns(tasks);
 
             var result = Run("d");
 
-            result[0].Expect($"+ First {tasks[0].CreatedOn.ToOutputFormat()}-{tasks[0].CompletedOn.Value.ToOutputFormat()}", Format.Positive);
-            result[1].Expect($"+ Second {tasks[1].CreatedOn.ToOutputFormat()}-{tasks[1].CompletedOn.Value.ToOutputFormat()}", Format.Positive);
+            result[0].Expect($"+ {tasks[0].Name} {tasks[0].CreatedOn.ToOutputFormat()}-{tasks[0].CompletedOn.Value.ToOutputFormat()}", Format.Positive);
+            result[1].Expect($"+ {tasks[1].Name} {tasks[1].CreatedOn.ToOutputFormat()}-{tasks[1].CompletedOn.Value.ToOutputFormat()}", Format.Positive);
         }
 
         private IList<OutputMessage> Run(string parameter = null)

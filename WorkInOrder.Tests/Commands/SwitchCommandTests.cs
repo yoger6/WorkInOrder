@@ -1,60 +1,73 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using WorkInOrder.BusinessLogic;
 using WorkInOrder.Commands;
+using WorkInOrder.Tests.BusinessLogic;
 using Xunit;
 
 namespace WorkInOrder.Tests.Commands
 {
     public class SwitchCommandTests
     {
-        private const string ExistingTask = "task";
+        private readonly Task _existingTask;
         private readonly CommandFactory _factory;
-        private readonly Mock<ITaskStorage> _storage = new Mock<ITaskStorage>();
         private readonly Mock<ITaskBoard> _board = new Mock<ITaskBoard>();
 
         public SwitchCommandTests()
         {
-            _factory = new CommandFactory(_storage.Object, _board.Object);
-            _storage.Setup(x => x.GetAll()).Returns(new[] { new Task(DateTime.Now, ExistingTask, Status.Current) });
+            _factory = new CommandFactory(Mock.Of<ITaskStorage>(), _board.Object);
+            _existingTask = TestTask.Active();
+        }
+
+        [Fact]
+        public void SwitchesToNewTask()
+        {
+            var result = Run(_existingTask.Name);
+
+            _board.Verify(x => x.Switch(_existingTask.Name));
         }
 
         [Fact]
         public void CannotSwitchToTaskThatDoesNotExist()
         {
             const string task = "abcd";
-            
+            _board.Setup(x => x.Switch(task)).Throws<TaskNotFoundException>();
+
             var result = Run(task);
 
-            result.Single().Expect($"{task} does not exist", Format.Negative);
+            result.Expect($"{task} does not exist", Format.Negative);
+        }
+        
+        [Fact]
+        public void CannotSwitchWhenNoTaskIsActive()
+        {
+            const string task = "abcd";
+            _board.Setup(x => x.Switch(task)).Throws<NoActiveTaskException>();
+
+            var result = Run(task);
+
+            result.Expect($"Cannot switch to {task} as there's no active task to switch from. Rather use Activate command.", Format.Negative);
         }
 
         [Fact]
-        public void SwitchesToNewTask()
+        public void CannotSwitchToTaskThatIsAlreadyActive()
         {
-            var result = Run(ExistingTask);
+            // Arrange
+            const string task = "abcd";
+            _board.Setup(x => x.Switch(task)).Throws<TaskAlreadyActiveException>();
 
-            _storage.Verify(x => x.UpdateStatus(ExistingTask, Status.Current));
+            // Act
+            var result = Run(task);
+
+            // Assert
+            result.Expect($"{task} is already active", Format.Neutral);
         }
 
-        [Fact]
-        public void PreviousTaskBecomesPending()
-        {
-            const string newTask = "abcd";
-            _storage.Setup(x => x.GetAll()).Returns(new[] {new Task(DateTime.Now, ExistingTask, Status.Current), new Task(DateTime.Now, newTask, Status.Pending)});
-
-            var result = Run(newTask);
-
-            _storage.Verify(x => x.UpdateStatus(ExistingTask, Status.Pending));
-        }
-
-        private IList<OutputMessage> Run(string task)
+        private OutputMessage Run(string task)
         {
             var command = _factory.Identify($"switch {task}");
 
-            return command.Run();
+            return command.Run().Single();
         }
     }
 }

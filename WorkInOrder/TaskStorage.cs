@@ -46,7 +46,8 @@ namespace WorkInOrder
                 (string) reader[0],
                 (Status) Enum.Parse(typeof(Status), 
                 (string) reader[1]),
-                reader.IsDBNull(3) ? (DateTime?) null : DateTime.Parse((string) reader[3]));
+                reader.IsDBNull(3) ? (DateTime?) null : DateTime.Parse((string) reader[3]),
+                this);
         }
 
         public void UpdateStatus(string name, Status status)

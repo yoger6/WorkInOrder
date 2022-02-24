@@ -6,7 +6,7 @@ namespace WorkInOrder
     {
         private readonly ITaskStorage _storage;
 
-        public Task(DateTime createdOn, string name, Status status, DateTime? completedOn = null)
+        protected Task(DateTime createdOn, string name, Status status, DateTime? completedOn = null)
         {
             CreatedOn = createdOn;
             Name = name;
@@ -14,7 +14,7 @@ namespace WorkInOrder
             CompletedOn = completedOn;
         }
 
-        protected Task(DateTime createdOn, string name, Status status, DateTime? completedOn, ITaskStorage storage)
+        public Task(DateTime createdOn, string name, Status status, DateTime? completedOn, ITaskStorage storage)
         : this(createdOn, name, status, completedOn)
         {
             _storage = storage;

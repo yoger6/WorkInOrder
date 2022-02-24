@@ -33,7 +33,7 @@ namespace WorkInOrder.Commands
                 case "done":
                     return new DoneCommand(_board);
                 case "switch":
-                    return new SwitchCommand(_storage, message);
+                    return new SwitchCommand(_board, message);
             }
         }
     }
