@@ -120,6 +120,9 @@
   <data name="MissingDescription" xml:space="preserve">
     <value>Missing task description</value>
   </data>
+  <data name="NothingToDisplay" xml:space="preserve">
+    <value>Nothing to display</value>
+  </data>
   <data name="TaskAdded" xml:space="preserve">
     <value>{0} has been added to current todo list</value>
   </data>

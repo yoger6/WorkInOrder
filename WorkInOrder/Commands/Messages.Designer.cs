@@ -70,6 +70,15 @@ namespace WorkInOrder.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nothing to display.
+        /// </summary>
+        internal static string NothingToDisplay {
+            get {
+                return ResourceManager.GetString("NothingToDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} has been added to current todo list.
         /// </summary>
         internal static string TaskAdded {

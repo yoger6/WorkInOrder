@@ -50,7 +50,7 @@ namespace WorkInOrder.Tests.Commands
         {
             var result = Run();
 
-            result.Single().Expect("Nothing to display", Format.Neutral);
+            result.Single().Expect(Messages.NothingToDisplay, Format.Neutral);
         }
 
         [Fact]

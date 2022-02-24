@@ -22,7 +22,7 @@ namespace WorkInOrder.Commands
 
             if (!tasks.Any())
             {
-                return OutputMessage.Neutral("Nothing to display");
+                return OutputMessage.Neutral(Messages.NothingToDisplay);
             }
 
             return FormatTasks(tasks).ToArray();
