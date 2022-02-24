@@ -22,14 +22,14 @@ namespace WorkInOrder.Commands
             }
             catch (MissingContentException)
             {
-                return OutputMessage.Negative("Missing task description");
+                return OutputMessage.Negative(Messages.MissingDescription);
             }
             catch (TaskAlreadyExistsException)
             {
-                return OutputMessage.Negative($"Task {_message} already exists");
+                return OutputMessage.NegativeFormat(Messages.TaskAlreadyExists, _message);
             }
 
-            return OutputMessage.Neutral($"{_message} has been added to current todo list");
+            return OutputMessage.NeutralFormat(Messages.TaskAdded, _message);
         }
     }
 }

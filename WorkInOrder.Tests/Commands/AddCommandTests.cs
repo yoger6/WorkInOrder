@@ -25,7 +25,7 @@ namespace WorkInOrder.Tests.Commands
             var result = command.Run().Single();
 
             _board.Verify(x => x.Add(something));
-            result.Expect($"{something} has been added to current todo list", Format.Neutral);
+            result.Expect(string.Format(Messages.TaskAdded, something), Format.Neutral);
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace WorkInOrder.Tests.Commands
 
             var result = command.Run().Single();
 
-            result.Expect("Missing task description", Format.Negative);
+            result.Expect(Messages.MissingDescription, Format.Negative);
         }
         
         [Fact]
@@ -55,14 +55,14 @@ namespace WorkInOrder.Tests.Commands
         {
             // Arrange
             _board.Setup(x => x.Add(It.IsAny<string>())).Throws<TaskAlreadyExistsException>();
-            var command = _factory.Identify("add abc");
+            const string task = "abc";
+            var command = _factory.Identify($"add {task}");
 
             // Act
             var result = command.Run();
 
             // Assert
-            result.Single().Expect("Task abc already exists", Format.Negative);
-
+            result.Single().Expect(string.Format(Messages.TaskAlreadyExists, task), Format.Negative);
         }
     }
 }

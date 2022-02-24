@@ -22,8 +22,19 @@ namespace WorkInOrder
 
         public static OutputMessage[] NegativeFormat(string message, params object[] parameters)
         {
-            return new[] {new OutputMessage(string.Format(message, parameters), Format.Negative)};
+            return FormatMessage(message, parameters, Format.Negative);
         }
+
+        public static OutputMessage[] NeutralFormat(string message, params object[] parameters)
+        {
+            return FormatMessage(message, parameters, Format.Neutral);
+        }
+
+        private static OutputMessage[] FormatMessage(string message, object[] parameters, Format format)
+        {
+            return new[] { new OutputMessage(string.Format(message, parameters), format) };
+        }
+
 
         public OutputMessage(string content, Format format)
         {

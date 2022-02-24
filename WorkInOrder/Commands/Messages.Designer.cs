@@ -61,6 +61,33 @@ namespace WorkInOrder.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Missing task description.
+        /// </summary>
+        internal static string MissingDescription {
+            get {
+                return ResourceManager.GetString("MissingDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has been added to current todo list.
+        /// </summary>
+        internal static string TaskAdded {
+            get {
+                return ResourceManager.GetString("TaskAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Task {0} already exists.
+        /// </summary>
+        internal static string TaskAlreadyExists {
+            get {
+                return ResourceManager.GetString("TaskAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknown command: {0}.
         /// </summary>
         internal static string UnknownCommand {
