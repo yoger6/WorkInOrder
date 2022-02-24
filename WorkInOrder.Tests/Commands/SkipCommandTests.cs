@@ -14,7 +14,7 @@ namespace WorkInOrder.Tests.Commands
 
         public SkipCommandTests()
         {
-            _factory = new CommandFactory(Mock.Of<ITaskStorage>(), _board.Object);
+            _factory = new CommandFactory(_board.Object);
         }
 
         [Fact]

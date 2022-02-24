@@ -1,12 +1,15 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WorkInOrder
 {
     public class NonUniqueNameException : Exception
     {
-        public NonUniqueNameException(string name, int itemsFound) : base($"Search for {name} yielded {itemsFound} results, please narrow down the search")
+        public string[] TasksFound { get; }
+        public NonUniqueNameException(IEnumerable<string> taskNamesFound)
         {
-            
+            TasksFound = taskNamesFound.ToArray();
         }
     }
 }

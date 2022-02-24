@@ -96,6 +96,7 @@ namespace WorkInOrder.BusinessLogic
         /// </summary>
         /// <exception cref="TaskNotFoundException">No task with given name</exception>
         /// <exception cref="TaskAlreadyActiveException">Task is already active</exception>
+        /// <exception cref="NonUniqueNameException">Multiple tasks matching given phrase were found</exception>
         /// <param name="name">Name of task to activate</param>
         public void Activate(string name)
         {

@@ -4,13 +4,13 @@ namespace WorkInOrder.Commands
 {
     public class CommandFactory
     {
-        private readonly ITaskStorage _storage;
         private readonly ITaskBoard _board;
+        private readonly Session _session;
 
-        public CommandFactory(ITaskStorage storage, ITaskBoard board)
+        public CommandFactory(ITaskBoard board, Session session = null)
         {
-            _storage = storage;
             _board = board;
+            _session = session ?? new Session();
         }
 
         public ICommand Identify(string input)
@@ -27,7 +27,7 @@ namespace WorkInOrder.Commands
                 case "list":
                     return new ListCommand(_board, message);
                 case "activate":
-                    return new ActivateCommand(_board, message);
+                    return new ActivateCommand(_board, message, _session);
                 case "skip":
                     return new SkipCommand(_board);
                 case "done":

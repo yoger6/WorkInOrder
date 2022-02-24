@@ -12,7 +12,8 @@ namespace WorkInOrder.Console
             var userStoragePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "WorkInOrder", "WorkInOrder.sqlite");
             var storage = new TaskStorage($"DataSource={userStoragePath}");
             var board = new TaskBoard(storage);
-            var factory = new CommandFactory(storage, board);
+            var session = new Session();
+            var factory = new CommandFactory(board, session);
             while (true)
             {
                 var defaultColor = System.Console.ForegroundColor;

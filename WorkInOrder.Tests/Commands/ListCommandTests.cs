@@ -13,12 +13,11 @@ namespace WorkInOrder.Tests.Commands
     {
 
         private readonly CommandFactory _factory;
-        private readonly Mock<ITaskStorage> _storage = new Mock<ITaskStorage>();
         private readonly Mock<ITaskBoard> _board = new Mock<ITaskBoard>();
 
         public ListCommandTests()
         {
-            _factory = new CommandFactory(_storage.Object, _board.Object);
+            _factory = new CommandFactory(_board.Object);
         }
 
         [Fact]

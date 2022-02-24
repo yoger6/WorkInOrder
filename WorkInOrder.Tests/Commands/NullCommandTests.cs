@@ -14,7 +14,7 @@ namespace WorkInOrder.Tests.Commands
 
         public NullCommandTests()
         {
-            _factory = new CommandFactory(_storage.Object, _board.Object);
+            _factory = new CommandFactory(_board.Object);
         }
 
         [Fact]

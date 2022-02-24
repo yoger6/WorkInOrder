@@ -15,7 +15,7 @@ namespace WorkInOrder.Tests.Commands
 
         public SwitchCommandTests()
         {
-            _factory = new CommandFactory(Mock.Of<ITaskStorage>(), _board.Object);
+            _factory = new CommandFactory(_board.Object);
             _existingTask = TestTask.Active();
         }
 

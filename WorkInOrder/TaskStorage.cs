@@ -37,8 +37,6 @@ namespace WorkInOrder
             return RunReader(commandText, Read).ToArray();
         }
 
-        
-
         private ITask Read(SqliteDataReader reader)
         {
             return new Task(
@@ -97,7 +95,10 @@ namespace WorkInOrder
                 new SqliteParameter("@Date", date));
         }
 
-
+        /// <summary>
+        /// Finds task with given name. Can be a partial match.
+        /// </summary>
+        /// <exception cref="NonUniqueNameException">When more than one task is found.</exception>
         public ITask Find(string phrase)
         {
             var results = RunReader(
@@ -108,7 +109,7 @@ namespace WorkInOrder
 
             if (results.Length > 1)
             {
-                throw new NonUniqueNameException(phrase, results.Length);
+                throw new NonUniqueNameException(results.Select(x => x.Name));
             }
 
             return results.SingleOrDefault();
@@ -221,6 +222,5 @@ namespace WorkInOrder
             
             return connection;
         }
-
     }
 }
