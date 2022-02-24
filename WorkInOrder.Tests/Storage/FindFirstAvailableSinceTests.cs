@@ -57,7 +57,7 @@ namespace WorkInOrder.Tests.Storage
         {
             // Arrange
             var date = DateTime.Now;
-            _storage.Create(date.AddDays(-1), "test", status);
+            _storage.Create(date.AddDays(1), "test", status);
 
             // Act
             var task = _storage.FindFirstAvailableSince(date);
