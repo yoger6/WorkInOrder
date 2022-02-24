@@ -18,18 +18,18 @@ namespace WorkInOrder.Commands
             {
                 var result = _board.Done();
                 var output = new List<OutputMessage>();
-                output.AddRange(OutputMessage.Neutral($"{result.Completed} completed"));
+                output.AddRange(OutputMessage.NeutralFormat(Messages.TaskCompleted, result.Completed));
 
                 if (!string.IsNullOrWhiteSpace(result.Activated))
                 {
-                    output.AddRange(OutputMessage.Neutral($"{result.Activated} is now active"));
+                    output.AddRange(OutputMessage.NeutralFormat(Messages.TaskActivated, result.Activated));
                 }
 
                 return output;
             }
             catch (TaskNotFoundException)
             {
-                return OutputMessage.Negative("There's not active task to complete");
+                return OutputMessage.Negative(Messages.NoTaskToComplete);
             }
         }
     }

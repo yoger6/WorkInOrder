@@ -88,6 +88,15 @@ namespace WorkInOrder.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There&apos;s not active task to complete.
+        /// </summary>
+        internal static string NoTaskToComplete {
+            get {
+                return ResourceManager.GetString("NoTaskToComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There&apos;s no active task to skip.
         /// </summary>
         internal static string NoTaskToSkip {
@@ -138,6 +147,15 @@ namespace WorkInOrder.Commands {
         internal static string TaskAlreadyExists {
             get {
                 return ResourceManager.GetString("TaskAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} completed.
+        /// </summary>
+        internal static string TaskCompleted {
+            get {
+                return ResourceManager.GetString("TaskCompleted", resourceCulture);
             }
         }
         

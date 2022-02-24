@@ -126,6 +126,9 @@
   <data name="MoreThanOneTaskFound" xml:space="preserve">
     <value>More than one task found when looking for {0}, you can pick one from list below using its number or more specific name:</value>
   </data>
+  <data name="NoTaskToComplete" xml:space="preserve">
+    <value>There's not active task to complete</value>
+  </data>
   <data name="NoTaskToSkip" xml:space="preserve">
     <value>There's no active task to skip</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="TaskAlreadyExists" xml:space="preserve">
     <value>Task {0} already exists</value>
+  </data>
+  <data name="TaskCompleted" xml:space="preserve">
+    <value>{0} completed</value>
   </data>
   <data name="TaskNotFound" xml:space="preserve">
     <value>{0} not found</value>

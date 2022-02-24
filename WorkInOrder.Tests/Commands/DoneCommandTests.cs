@@ -24,15 +24,21 @@ namespace WorkInOrder.Tests.Commands
 
             var result = Complete();
 
-            result.Single().Expect("There's not active task to complete", Format.Negative);
+            result.Single().Expect(Messages.NoTaskToComplete, Format.Negative);
         }
 
         [Fact]
-        public void MarkCurrentTaskAsDone()
+        public void CompletesTheTaskInformingWhichOneWasCompletedAndActivated()
         {
-            Complete();
+            const string completedTaskName = "completed";
+            const string activatedTaskName = "activated";
+            _board.Setup(x => x.Done()).Returns((completedTaskName, activatedTaskName));
+
+            var result = Complete();
 
             _board.Verify(x=>x.Done());
+            result[0].Expect(string.Format(Messages.TaskCompleted, completedTaskName), Format.Neutral);
+            result[1].Expect(string.Format(Messages.TaskActivated, activatedTaskName), Format.Neutral);
         }
 
         private IList<OutputMessage> Complete()
