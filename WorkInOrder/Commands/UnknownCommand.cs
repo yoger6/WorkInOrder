@@ -13,7 +13,7 @@ namespace WorkInOrder.Commands
 
         public IList<OutputMessage> Run()
         {
-            return new[] { new OutputMessage($"Unknown command: {_input}", Format.Negative), };
+            return OutputMessage.NegativeFormat(Messages.UnknownCommand, _input);
         }
     }
 }

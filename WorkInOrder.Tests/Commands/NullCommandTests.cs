@@ -9,7 +9,6 @@ namespace WorkInOrder.Tests.Commands
     public class NullCommandTests
     {
         private readonly CommandFactory _factory;
-        private readonly Mock<ITaskStorage> _storage = new Mock<ITaskStorage>();
         private readonly Mock<ITaskBoard> _board = new Mock<ITaskBoard>();
 
         public NullCommandTests()
@@ -20,11 +19,12 @@ namespace WorkInOrder.Tests.Commands
         [Fact]
         public void NullCommandReturnsUnknownMessage()
         {
-            var command = _factory.Identify("acbd");
+            const string commandName = "acbd";
+            var command = _factory.Identify(commandName);
 
             var result = command.Run().Single();
 
-            Assert.Equal("Unknown command: acbd", result.Content);
+            Assert.Equal(string.Format(Messages.UnknownCommand, commandName), result.Content);
             Assert.Equal(Format.Negative, result.Format);
         }
     }

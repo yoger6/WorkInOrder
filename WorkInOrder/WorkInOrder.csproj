@@ -82,6 +82,11 @@
     <Compile Include="Commands\AddCommand.cs" />
     <Compile Include="Commands\CommandFactory.cs" />
     <Compile Include="Commands\DoneCommand.cs" />
+    <Compile Include="Commands\Messages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
     <Compile Include="Commands\Session.cs" />
     <Compile Include="Commands\SkipCommand.cs" />
     <Compile Include="Commands\SwitchCommand.cs" />
@@ -109,7 +114,12 @@
     <None Include="app.manifest" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Commands\Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
